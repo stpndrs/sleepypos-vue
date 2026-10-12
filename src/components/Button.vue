@@ -55,6 +55,16 @@ defineEmits(['click']);
     background-color: var(--primary, #FF5C00);
 }
 
+.btn-border-primary {
+    border: 1px solid var(--primary, #FF5C00);
+    color: var(--primary, #FF5C00);
+}
+
+.btn-border-primary:hover {
+    color: var(--primary, #FF5C00);
+    background-color: #FFF5F0;
+}
+
 .btn-primary-solid {
     border: 1px solid var(--primary, #FF5C00);
     color: white;

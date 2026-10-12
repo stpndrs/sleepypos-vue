@@ -5,7 +5,10 @@ import Topbar from './topbar.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const isSidebarHide = ref(route.meta?.hideSideBar)
+const hideSideBar = computed(() => {
+    return route.meta?.hideSideBar ?? false;
+});
+const isSidebarHide = ref(hideSideBar)
 const toggleSidebar = () => {
     isSidebarHide.value = !isSidebarHide.value;
 };

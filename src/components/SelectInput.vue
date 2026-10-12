@@ -15,7 +15,7 @@ defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <div class="form-field field-status">
+    <div class="form-field">
         <div class="input-group select-wrapper">
             <select :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
                 <option value="">{{ placeholder }}</option>
@@ -35,10 +35,6 @@ defineEmits(['update:modelValue']);
     flex-direction: column;
     gap: 6px;
     font-family: 'Poppins', sans-serif;
-}
-
-.field-status {
-    width: 160px;
 }
 
 .input-group {
