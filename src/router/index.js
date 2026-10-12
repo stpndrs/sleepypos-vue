@@ -30,7 +30,7 @@ const router = createRouter({
 							path: '/sales',
 							component: SalesView,
 							name: 'sales-view',
-							meta: { title: ['Riwayat Penjualan'] }
+							meta: { hideSideBar: true, title: ['Riwayat Penjualan'] }
 						},
 						{
 							path: '/sales/create',
@@ -42,7 +42,7 @@ const router = createRouter({
 							path: '/sales/edit/:id',
 							component: SalesView,
 							name: 'edit-sales-view',
-							meta: { showTopBar: false }
+							meta: { hideSideBar: true, showTopBar: false }
 						},
 					]
 				},
