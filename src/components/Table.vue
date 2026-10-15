@@ -19,20 +19,20 @@ const tableColumns = computed(() => {
 <template>
     <div class="table-border">
         <table>
-            <!-- <thead> -->
-            <tr>
-                <th v-for="col in tableColumns" :key="col">
-                    {{ col.toUpperCase() }}
-                </th>
-            </tr>
-            <!-- </thead>
-            <tbody> -->
-            <tr v-for="(row, index) in items" :key="index">
-                <td v-for="col in tableColumns" :key="col">
-                    {{ row[col] }}
-                </td>
-            </tr>
-            <!-- </tbody> -->
+            <thead>
+                <tr>
+                    <th v-for="col in tableColumns" :key="col">
+                        {{ col.toUpperCase() }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(row, index) in items" :key="index">
+                    <td v-for="col in tableColumns" :key="col">
+                        {{ row[col] }}
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>
