@@ -52,9 +52,14 @@ const statusClass = computed(() => {
         </div>
 
         <div class="card-footer">
-            <Button variant="primary-solid">
-                Lihat detail transaksi
-            </Button>
+            <div class="transaction-action">
+                <Button variant="primary-solid">
+                    Detail transaksi
+                </Button>
+                <Button variant="border-primary" v-if="transaction.status == 'Draft'">
+                    Edit transaksi
+                </Button>
+            </div>
 
             <Button variant="border-danger">
                 Batalkan transaksi
@@ -167,5 +172,16 @@ const statusClass = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.transaction-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;
+}
+
+.transaction-action button {
+    width: 100%;
 }
 </style>
