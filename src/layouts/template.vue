@@ -59,7 +59,7 @@ nav {
 
 main {
     grid-area: main;
-    padding: 24px;
+    padding: 24px 24px 80px 24px;
 }
 
 @media (max-width: 768px) {

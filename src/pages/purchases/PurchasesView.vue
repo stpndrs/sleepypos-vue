@@ -17,7 +17,7 @@ const purchasesData = ref([
         kode: 'TRX-001',
         tanggal: '10/09/2026',
         nama: 'Budiman',
-        catatan: 'ini contoh catatan aiodhfaif aiodjhfaijdfh adifhaoifh',
+        catatan: 'ini contoh catatan',
         total: '50.000',
         bukti: 'ini bukti',
     },
@@ -94,6 +94,7 @@ const purchasesData = ref([
         bukti: 'ini bukti',
     },
 ]);
+
 const totalItems = ref(purchasesData.value.length);
 const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage.value)));
 
@@ -151,6 +152,8 @@ watch([currentPage, perPage], fetchData, { immediate: true });
 
 .data {
     margin-top: 20px;
+    contain: inline-size;
+    overflow-x: auto;
 }
 
 .pagination-footer {
