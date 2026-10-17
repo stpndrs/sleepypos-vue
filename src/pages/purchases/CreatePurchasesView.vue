@@ -1,378 +1,384 @@
 <script setup>
-import BackLink from '@/components/BackLink.vue'
-import Button from '@/components/Button.vue'
-import InputFile from '@/components/InputFile.vue'
-import ProductCard from '@/components/ProductCard.vue'
-import SearchInput from '@/components/SearchInput.vue'
-import SelectInput from '@/components/SelectInput.vue'
-import { ref } from 'vue'
+import { reactive } from 'vue';
+import BackLink from '@/components/BackLink.vue';
+import InputDate from '@/components/InputDate.vue';
+import InputFile from '@/components/InputFile.vue';
+import InputText from '@/components/InputText.vue';
+import SelectInput from '@/components/SelectInput.vue';
+import router from '@/router';
 
-const searchQuery = ref('')
-const selectedCategory = ref('')
-const categoryOptions = ref(['Makanan', 'Minuman', 'Paket'])
-const selectedPaymentMethod = ref('')
-const paymentMethodOptions = ref(['Tunai', 'Transfer', 'QRIS'])
-const paymentProof = ref('')
+let nextItemId = 1;
 
-// Dummy Data
-const products = ref([
-    {
-        id: 1,
-        code: 'F0001',
-        name: 'Cheesecuit Keju',
-        stock: 5,
-        unit_price: 8000,
-        image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-    },
-    {
-        id: 2,
-        code: 'F0002',
-        name: 'Cheesecuit Keju',
-        stock: 5,
-        unit_price: 8000,
-        image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-    },
-    {
-        id: 3,
-        code: 'F0003',
-        name: 'Cheesecuit Keju',
-        stock: 5,
-        unit_price: 8000,
-        image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-    },
-    {
-        id: 4,
-        code: 'F0004',
-        name: 'Cheesecuit Keju',
-        stock: 5,
-        unit_price: 8000,
-        image: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-    },
-])
+function createItem() {
+    return {
+        id: nextItemId++,
+        description: '',
+        price: null,
+        quantity: null,
+        unit: '',
+        image: null,
+    };
+}
 
-function clearFilter() {
-    searchQuery.value = ''
-    selectedCategory.value = ''
+const form = reactive({
+    buyerName: '',
+    paymentProof: null,
+    total: null,
+    date: '',
+    note: '',
+    items: [createItem()],
+});
+
+const unitOptions = ['pcs', 'kg', 'gram', 'liter', 'pak', 'box'];
+
+function addItem() {
+    form.items.push(createItem());
+}
+
+function removeItem(id) {
+    if (form.items.length === 1) return;
+    form.items = form.items.filter((item) => item.id !== id);
+}
+
+function getSubtotal(item) {
+    return (item.price || 0) * (item.quantity || 0);
+}
+
+function onPaymentProofChange(event) {
+    form.paymentProof = event.target.files[0] ?? null;
+}
+
+function onItemImageChange(item, event) {
+    item.image = event.target.files[0] ?? null;
+}
+
+function submitForm() {
+    if (
+        !form.date ||
+        !form.paymentProof ||
+        form.items.some((item) => !item.unit || !item.image)
+    ) {
+        alert('Tanggal pembelian, bukti pembayaran, satuan, dan gambar produk wajib diisi');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('buyer_name', form.buyerName);
+    formData.append('total', form.total ?? '');
+    formData.append('date', form.date);
+    formData.append('note', form.note);
+    if (form.paymentProof) formData.append('payment_proof', form.paymentProof);
+
+    form.items.forEach((item, index) => {
+        formData.append(`items[${index}][description]`, item.description);
+        formData.append(`items[${index}][price]`, item.price ?? '');
+        formData.append(`items[${index}][quantity]`, item.quantity ?? '');
+        formData.append(`items[${index}][unit]`, item.unit);
+        formData.append(`items[${index}][subtotal]`, getSubtotal(item));
+        if (item.image) formData.append(`items[${index}][image]`, item.image);
+    });
+
+    console.log([...formData.entries()]);
+}
+
+function cancel() {
+    router.push({ name: 'purchases-view' });
 }
 </script>
 
 <template>
-    <div>
-        <section class="page-body">
-            <section class="data">
-                <BackLink label="Lihat semua transaksi" routeName="sales-view" variant="primary" />
+    <div class="page">
+        <section class="button-back">
+            <BackLink label="Lihat semua pembelian" routeName="purchases-view" variant="primary" />
+        </section>
 
-                <section class="filters">
-                    <SearchInput
-                        v-model="searchQuery"
-                        placeholder="Cari data berdasarkan nama atau kode produk"
-                    />
-                    <SelectInput
-                        v-model="selectedCategory"
-                        placeholder="Pilih Kategori"
-                        :options="categoryOptions"
-                    />
-                    <Button variant="primary" @click="clearFilter()">Bersihkan Filter</Button>
-                </section>
-                <section class="products">
-                    <ProductCard v-for="(item, index) in products" :key="index" :products="item" />
-                </section>
-            </section>
+        <section class="data">
+            <h1 class="page-title">Tambah Pembelian</h1>
+            <form class="form" @submit.prevent="submitForm">
+                <div class="form-top">
+                    <div class="column-left">
+                        <InputText
+                            v-model="form.buyerName"
+                            label="Nama Pembeli"
+                            placeholder="Nama pembeli barang"
+                            required
+                        />
 
-            <aside class="summary">
-                <div class="identity">
-                    <h3 class="summary-title">Data Transaksi</h3>
-                    <h2 class="transaction-code">#P0001</h2>
-                </div>
+                        <InputText
+                            v-model="form.total"
+                            label="Total pembayaran"
+                            type="number"
+                            min="0"
+                            placeholder="Total pembayaran"
+                            required
+                        />
 
-                <div class="divider">
-                    <span class="divider-label">3 Items Selected</span>
-                    <div class="dashed-line"></div>
+                        <div class="field">
+                            <label> Tanggal Pembelian <span class="required">*</span> </label>
+                            <InputDate v-model="form.date" required />
+                        </div>
+                    </div>
+
+                    <div class="column-right">
+                        <div class="field">
+                            <label> Bukti Pembayaran <span class="required">*</span> </label>
+                            <InputFile
+                                placeholder="Upload bukti pembayaran"
+                                accept="image/*,.pdf"
+                                required
+                                @change="onPaymentProofChange"
+                            />
+                        </div>
+
+                        <div class="field field-grow">
+                            <label for="note">Catatan</label>
+                            <textarea
+                                id="note"
+                                v-model="form.note"
+                                placeholder="Catatan"
+                            ></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="items">
-                    <!-- Item 1 -->
-                    <div class="item">
-                        <div class="item-image">
-                            <img
-                                src="https://api-pos.fadhilahnaf.my.id/api/products/1/image"
-                                alt="Image"
+                    <button type="button" class="btn btn-primary btn-add" @click="addItem">
+                        Tambah Item +
+                    </button>
+
+                    <div v-for="item in form.items" :key="item.id" class="item-row">
+                        <InputText
+                            v-model="item.description"
+                            label="Keterangan"
+                            placeholder="Keterangan pembelian"
+                            required
+                        />
+
+                        <InputText
+                            v-model="item.price"
+                            label="Harga produk"
+                            type="number"
+                            min="0"
+                            placeholder="Harga per satuan"
+                            required
+                        />
+
+                        <InputText
+                            v-model="item.quantity"
+                            label="Quantity"
+                            type="number"
+                            min="1"
+                            placeholder="Quantity barang"
+                            required
+                        />
+
+                        <div class="field">
+                            <label>
+                                Satuan <span class="required">*</span>
+                            </label>
+                            <SelectInput
+                                v-model="item.unit"
+                                placeholder="Pilih Satuan"
+                                :options="unitOptions"
                             />
                         </div>
-                        <div class="item-body">
-                            <h4 class="item-title">Cheesecuit 1</h4>
-                            <p class="item-category">Makanan</p>
-                            <p class="item-price">Rp 6.000</p>
-                            <div class="item-action">
-                                <Button variant="primary" disabled="true">-</Button>
-                                <div class="item-qty">1</div>
-                                <Button variant="primary">+</Button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Item 2 -->
-                    <div class="item">
-                        <div class="item-image">
-                            <img
-                                src="https://api-pos.fadhilahnaf.my.id/api/products/1/image"
-                                alt="Image"
+                        <div class="field">
+                            <label :for="`subtotal-${item.id}`">
+                                Subtotal <span class="required">*</span>
+                            </label>
+                            <input
+                                :id="`subtotal-${item.id}`"
+                                :value="getSubtotal(item)"
+                                type="number"
+                                placeholder="Subtotal"
+                                readonly
                             />
                         </div>
-                        <div class="item-body">
-                            <h4 class="item-title">Coffee 1</h4>
-                            <p class="item-category">Minuman</p>
-                            <p class="item-price">Rp 6.000</p>
-                            <div class="item-action">
-                                <Button variant="primary">-</Button>
-                                <div class="item-qty">2</div>
-                                <Button variant="primary">+</Button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Item 3 -->
-                    <div class="item">
-                        <div class="item-image">
-                            <img
-                                src="https://api-pos.fadhilahnaf.my.id/api/products/1/image"
-                                alt="Image"
+                        <div class="field">
+                            <label> Gambar Produk <span class="required">*</span> </label>
+                            <InputFile
+                                placeholder="Upload gambar produk"
+                                accept="image/*"
+                                required
+                                @change="onItemImageChange(item, $event)"
                             />
                         </div>
-                        <div class="item-body">
-                            <h4 class="item-title">Paket 1</h4>
-                            <p class="item-category">Makanan</p>
-                            <p class="item-price">Rp 6.000</p>
-                            <div class="item-action">
-                                <Button variant="primary" disabled="true">-</Button>
-                                <div class="item-qty">1</div>
-                                <Button variant="primary">+</Button>
-                            </div>
-                        </div>
+
+                        <button
+                            type="button"
+                            class="btn-remove"
+                            :disabled="form.items.length === 1"
+                            aria-label="Hapus item"
+                            @click="removeItem(item.id)"
+                        >
+                            &times;
+                        </button>
                     </div>
                 </div>
 
-                <div class="divider">
-                    <span class="divider-label">Payment Details</span>
-                    <div class="dashed-line"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-outline" @click="cancel">Batalkan</button>
                 </div>
-
-                <div class="payments">
-                    <div class="payment-item">
-                        <span class="payment-item-label">Sub Totals</span>
-                        <span class="payment-item-value">Rp 18.000</span>
-                    </div>
-                    <div class="payment-item">
-                        <span class="payment-item-label">Discount</span>
-                        <span class="payment-item-value">0</span>
-                    </div>
-                    <div class="payment-item total-row">
-                        <span class="payment-item-label">Total</span>
-                        <span class="payment-item-value">Rp 18.000</span>
-                    </div>
-                </div>
-
-                <div class="select-wrapper">
-                    <SelectInput
-                        v-model="selectedPaymentMethod"
-                        placeholder="Pilih metode pembayaran"
-                        :options="paymentMethodOptions"
-                    />
-                </div>
-
-                <div class="action-grid">
-                    <Button variant="primary-solid">Place Order</Button>
-                    <Button variant="border-primary">
-                        <i class="bi bi-journal"></i>
-                    </Button>
-                </div>
-
-                <Button variant="border-danger">Cancel</Button>
-            </aside>
+            </form>
         </section>
     </div>
 </template>
 
 <style scoped>
-.page-body {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 30px;
+.button-back {
+    height: 35px;
+    align-content: center;
 }
 
-.filters {
-    margin: 30px 0;
+.page-title {
+    font-weight: 700;
+    margin: 16px 0 24px;
 }
 
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 10px;
-}
-
-.summary {
-    border-left: 1px solid #e5e5e5;
-    padding: 24px 20px;
-    background-color: #ffffff;
-    font-family: 'Poppins', sans-serif;
+.form {
     display: flex;
     flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
 }
 
-.identity {
-    text-align: center;
-    margin-bottom: 20px;
+.form-top {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
 }
 
-.summary-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #2d2d2d;
-    margin: 0 0 4px 0;
-}
-
-.transaction-code {
-    font-size: 30px;
-    font-weight: 800;
-    color: var(--primary);
-    margin: 0;
-}
-
-.divider {
+.column-left,
+.column-right {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
-    margin: 16px 0;
+    min-width: 0;
 }
 
-.divider-label {
-    color: #444;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.dashed-line {
-    flex-grow: 1;
-    border-bottom: 1px dashed #444;
+.field-grow {
+    flex: 1;
 }
 
 .items {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    overflow-y: scroll;
-    height: 50vh;
-}
-
-.item {
-    display: flex;
     gap: 16px;
-    align-items: flex-start;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #f0f0f0;
 }
 
-.item:last-child {
-    border-bottom: none;
+.item-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) auto;
+    gap: 20px;
+    align-items: end;
 }
 
-.item-image {
-    width: 100px;
-    height: 100px;
-    flex-shrink: 0;
+.form-actions {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 12px;
 }
 
-.item-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+label {
+    font-size: 16px;
 }
 
-.item-body {
-    flex-grow: 1;
+.required {
+    color: #e53935;
 }
 
-.item-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 2px 0;
-}
-
-.item-category {
-    font-size: 14px;
-    color: #8c8c8c;
-    margin: 0 0 4px 0;
-}
-
-.item-price {
-    font-size: 18px;
-    font-weight: 700;
-    color: #ff5700;
-    margin: 0 0 10px 0;
-}
-
-.item-action {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.item-qty {
-    border: 1px solid #e0e0e0;
-    padding: 8px 20px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 500;
-    color: #333333;
-}
-
-.payments {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.payment-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: #555555;
-}
-
-.payment-item-value {
-    font-weight: 700;
-    color: #1a1a1a;
-}
-
-.select-wrapper {
-    margin-bottom: 16px;
-}
-
-.action-grid {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.action-grid button:nth-child(1) {
+input,
+textarea {
     width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 16px;
+    background: #f3f3f3;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
 }
 
-@media screen and (max-width: 991.98px) {
-    .page-body {
+textarea {
+    flex: 1;
+    min-height: 120px;
+    padding: 12px 16px;
+    resize: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #8a8a8a;
+}
+
+input[readonly] {
+    cursor: default;
+}
+
+.btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #ff6a00;
+    border: 1px solid #ff6a00;
+    color: #fff;
+}
+
+.btn-outline {
+    background: #fff;
+    border: 1px solid #ff6a00;
+    color: #ff6a00;
+}
+
+.btn-add {
+    align-self: flex-start;
+}
+
+.btn-remove {
+    width: 32px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #e53935;
+    cursor: pointer;
+}
+
+.btn-remove:disabled {
+    visibility: hidden;
+}
+
+@media (max-width: 991.98px) {
+    .form-top {
         grid-template-columns: 1fr;
-        padding-bottom: 30px;
+    }
+
+    .item-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .btn-remove {
+        grid-column: 1 / -1;
+        justify-self: end;
+        height: 32px;
     }
 }
 </style>
