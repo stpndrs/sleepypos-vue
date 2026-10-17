@@ -6,9 +6,9 @@ import SearchInput  from '@/components/SearchInput.vue';
 </script>
 
 <template>
-  <div class="dashboard-container">
+  <section class="dashboard-container">
 
-    <header class="dashboard-header">
+    <header class="page-body">
 
       <h1 class="title">Dashboard</h1>
       <p class="subtitle">Cari data berdasarkan bulan</p>
@@ -21,8 +21,10 @@ import SearchInput  from '@/components/SearchInput.vue';
 
       </div>
     </header>
+  </section>
 
-    <section class="chart-grid">
+  <section class="page-body">
+    <div class="chart-grid">
 
       <div class="chart-card">
 
@@ -37,8 +39,8 @@ import SearchInput  from '@/components/SearchInput.vue';
         <Chart id="Chart2" type="line" />
 
       </div>
-    </section>
-    <section class="table-grid">
+    </div>
+    <div class="table-grid">
       <div class="header-table">
 
         <h2 class="table-title">transaksi terbaru</h2>
@@ -49,9 +51,11 @@ import SearchInput  from '@/components/SearchInput.vue';
 
         <TableComponent />
       </div>
-      </section>
+    </div>
+  </section>
 
-  </div>
+
+  
 </template>
 
 <style scoped>
@@ -69,7 +73,7 @@ import SearchInput  from '@/components/SearchInput.vue';
   padding: 20px;
 
 }
-.dashboard-container {
+.page-body {
 
 
   background-color: #ffffff;
