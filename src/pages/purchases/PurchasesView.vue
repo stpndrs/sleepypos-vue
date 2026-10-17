@@ -124,7 +124,18 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                 />
             </section>
             <section class="data">
-                <ObjectTable :items="purchasesData" />
+                <ObjectTable
+                    :head="[
+                        'KODE TRANSAKSI',
+                        'TANGGAL',
+                        'NAMA PEMBELI',
+                        'CATATAN',
+                        'TOTAL HARGA',
+                        'BUKTI PEMBAYARAN',
+                        'AKSI',
+                    ]"
+                    :items="purchasesData"
+                />
             </section>
         </section>
         <section class="page-footer">
