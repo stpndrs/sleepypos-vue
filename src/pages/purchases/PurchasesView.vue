@@ -206,7 +206,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
 .page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 .filters {
