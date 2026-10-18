@@ -36,7 +36,12 @@ const tableColumns = computed(() => {
                 </tr>
                 <tr v-for="(row, index) in items" :key="index">
                     <td v-for="col in tableColumns" :key="col">
-                        {{ row[col] }}
+                        <slot :name="`cell-${col}`" :row="row" :value="row[col]">
+                            {{ row[col] }}
+                        </slot>
+                    </td>
+                    <td v-if="$slots.aksi">
+                        <slot name="aksi" :row="row" :index="index" />
                     </td>
                 </tr>
             </tbody>
