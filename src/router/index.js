@@ -2,6 +2,7 @@ import Main from '@/layouts/template.vue'
 import DashboardView from '@/pages/dashboard/DashboardView.vue'
 import LandingPageView from '@/pages/LandingPageView.vue'
 import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue'
+import DetailPurchasesView from '@/pages/purchases/DetailPurchasesView.vue'
 import PurchasesView from '@/pages/purchases/PurchasesView.vue'
 import CreateSalesView from '@/pages/sales/CreateSalesView.vue'
 import SalesView from '@/pages/sales/SalesView.vue'
@@ -68,6 +69,12 @@ const router = createRouter({
 							path: '/purchases/edit/:id',
 							component: CreatePurchasesView,
 							name: 'edit-purchases-view',
+							meta: { hideSideBar: true, showTopBar: false }
+						},
+						{
+							path: '/purchases/detail/:id',
+							component: DetailPurchasesView,
+							name: 'detail-purchases-view',
 							meta: { hideSideBar: true, showTopBar: false }
 						},
 					]
