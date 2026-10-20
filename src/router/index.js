@@ -66,7 +66,7 @@ const router = createRouter({
 						},
 						{
 							path: '/purchases/edit/:id',
-							component: PurchasesView,
+							component: CreatePurchasesView,
 							name: 'edit-purchases-view',
 							meta: { hideSideBar: true, showTopBar: false }
 						},
