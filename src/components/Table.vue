@@ -10,11 +10,15 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    hide: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const tableColumns = computed(() => {
     if (props.items && props.items.length > 0) {
-        return Object.keys(props.items[0]);
+        return Object.keys(props.items[0]).filter((key) => !props.hide.includes(key));
     }
     return [];
 });
