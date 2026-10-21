@@ -6,234 +6,13 @@ import Pagination from '@/components/Pagination.vue';
 import Button from '@/components/Button.vue';
 import router from '@/router';
 import Link from '@/components/Link.vue';
+import { purchases } from '@/data/purchases';
 
 const searchQuery = ref('');
 const currentPage = ref(1);
 const perPage = ref(10);
 
-//Test object
-const purchasesData = ref([
-    {
-        kode: 'TRX-001',
-        tanggal: '10/09/2026',
-        nama: 'Budiman',
-        catatan: 'roti buat sarapan warung',
-        total: '50.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-        items: [
-            {
-                id: 101,
-                description: 'Roti Sobek Coklat',
-                price: 15000,
-                quantity: 2,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-            },
-            {
-                id: 102,
-                description: 'Susu UHT 1 Liter',
-                price: 10000,
-                quantity: 2,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-002',
-        tanggal: '10/09/2026',
-        nama: 'Budiman',
-        catatan: 'isi etalase pagi',
-        total: '50.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-        items: [
-            {
-                id: 103,
-                description: 'Donat Gula Halus',
-                price: 5000,
-                quantity: 10,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-003',
-        tanggal: '10/09/2026',
-        nama: 'Budiman',
-        catatan: 'untuk acara arisan RT',
-        total: '50.000',
-        bukti: null,
-        items: [
-            {
-                id: 104,
-                description: 'Kue Lapis',
-                price: 50000,
-                quantity: 1,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-004',
-        tanggal: '11/09/2026',
-        nama: 'Siti Rahma',
-        catatan: 'pesanan hajatan anak',
-        total: '125.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-        items: [
-            {
-                id: 105,
-                description: 'Brownies Kotak isi 8',
-                price: 35000,
-                quantity: 2,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-            },
-            {
-                id: 106,
-                description: 'Kue Tart Mini',
-                price: 55000,
-                quantity: 1,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-005',
-        tanggal: '12/09/2026',
-        nama: 'Andi Saputra',
-        catatan: 'pesanan khusus, tolong dipisah',
-        total: '75.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-        items: [
-            {
-                id: 107,
-                description: 'Cheese Cake Cup',
-                price: 25000,
-                quantity: 3,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-006',
-        tanggal: '12/09/2026',
-        nama: 'Clara',
-        catatan: 'kue ulang tahun kantor',
-        total: '300.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-        items: [
-            {
-                id: 108,
-                description: 'Kue Tart',
-                price: 200000,
-                quantity: 1,
-                unit: 'kg',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-            },
-            {
-                id: 109,
-                description: 'Kotak Kue Kering',
-                price: 100000,
-                quantity: 1,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-007',
-        tanggal: '13/09/2026',
-        nama: 'Dewi Lestari',
-        catatan: 'pengiriman besok pagi ya',
-        total: '45.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-        items: [
-            {
-                id: 110,
-                description: 'Roti Coklat Krim',
-                price: 15000,
-                quantity: 3,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-008',
-        tanggal: '13/09/2026',
-        nama: 'Fajar Hidayat',
-        catatan: 'urgent, buat rapat sore',
-        total: '90.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-        items: [
-            {
-                id: 111,
-                description: 'Kue Lapis',
-                price: 45000,
-                quantity: 2,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-009',
-        tanggal: '14/09/2026',
-        nama: 'Gilang',
-        catatan: 'stok lebaran mulai dicicil',
-        total: '150.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-        items: [
-            {
-                id: 112,
-                description: 'Nastar Premium 500g',
-                price: 75000,
-                quantity: 2,
-                unit: 'pak',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/4/image',
-            },
-        ],
-    },
-    {
-        kode: 'TRX-010',
-        tanggal: '15/09/2026',
-        nama: 'Hani',
-        catatan: 'pembelian rutin bulanan',
-        total: '500.000',
-        bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-        items: [
-            {
-                id: 113,
-                description: 'Roti Tawar Jumbo',
-                price: 5000,
-                quantity: 20,
-                unit: 'pak',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-            },
-            {
-                id: 114,
-                description: 'Donat Gula Halus',
-                price: 5000,
-                quantity: 20,
-                unit: 'pcs',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-            },
-            {
-                id: 115,
-                description: 'Susu UHT 1 Liter',
-                price: 10000,
-                quantity: 30,
-                unit: 'box',
-                image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-            },
-        ],
-    },
-]);
+const purchasesData = ref(purchases);
 
 const totalItems = ref(purchasesData.value.length);
 const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage.value)));
@@ -310,6 +89,13 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                             >
                                 <i class="bi bi-pencil"></i>
                             </router-link>
+                            <router-link
+                                :to="{ name: 'detail-purchases-view', params: { id: row.kode } }"
+                                class="detail-icon"
+                                aria-label="Detail pembelian"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </router-link>
                         </div>
                     </template>
                 </ObjectTable>
@@ -385,6 +171,28 @@ watch([currentPage, perPage], fetchData, { immediate: true });
 }
 
 .edit-icon:hover {
+    background-color: #e05200;
+}
+
+.detail-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #ff6200;
+    text-decoration: none;
+    border: none;
+    padding: 0;
+    transition:
+        background-color 0.2s,
+        opacity 0.2s;
+}
+
+.detail-icon:hover {
     background-color: #e05200;
 }
 
