@@ -1,45 +1,14 @@
 <script setup>
 import BackLink from '@/components/BackLink.vue';
-import { ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import ObjectTable from '@/components/Table.vue';
 import { useRoute } from 'vue-router';
-// import { watch } from 'vue';
+import { purchases } from '@/data/purchases';
 
 const route = useRoute();
 
-const purchasesData = ref({
-    kode: 'TRX-010',
-    tanggal: '15/09/2026',
-    nama: 'Hani',
-    catatan: 'pembelian rutin bulanan',
-    total: '500.000',
-    bukti: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-    items: [
-        {
-            id: 113,
-            description: 'Roti Tawar Jumbo',
-            price: 5000,
-            quantity: 20,
-            unit: 'pak',
-            image: 'https://api-pos.fadhilahnaf.my.id/api/products/1/image',
-        },
-        {
-            id: 114,
-            description: 'Donat Gula Halus',
-            price: 5000,
-            quantity: 20,
-            unit: 'pcs',
-            image: 'https://api-pos.fadhilahnaf.my.id/api/products/2/image',
-        },
-        {
-            id: 115,
-            description: 'Susu UHT 1 Liter',
-            price: 10000,
-            quantity: 30,
-            unit: 'box',
-            image: 'https://api-pos.fadhilahnaf.my.id/api/products/3/image',
-        },
-    ],
-});
+const current = ref(null);
+const proofUrl = ref(null);
 
 const head = ['Keterangan', 'Qty', 'Satuan', 'Harga Satuan', 'Sub Total', 'Gambar Produk'];
 
@@ -69,21 +38,18 @@ function formatRupiah(value) {
     return 'Rp' + new Intl.NumberFormat('id-ID').format(value ?? 0);
 }
 
-async function getPurchase(id) {
-    //Mungkin bisa di ganti melakukan get ke api berdasarkan kode nya
+const totalQty = computed(() =>
+    (current.value?.items ?? []).reduce((sum, item) => sum + item.quantity, 0),
+);
+
+const totalPrice = computed(() =>
+    (current.value?.items ?? []).reduce((sum, item) => sum + item.price * item.quantity, 0),
+);
+
+function loadPurchase(id) {
+    current.value = purchases.find((row) => row.kode === id) ?? null;
+    proofUrl.value = null;
 }
-
-async function loadPurchase() {
-    const purchase = await getPurchase(route.params.id);
-    if (!purchase) {
-        alert('Data pembelian tidak ditemukan');
-        return;
-    }
-
-    purchasesData.value = purchase;
-}
-
-const proofUrl = ref(null);
 
 function openProof(url) {
     proofUrl.value = url;
@@ -93,7 +59,14 @@ function closeProof() {
     proofUrl.value = null;
 }
 
-// watch(() => route.params.id, loadPurchase, { immediate: true });
+function onKeydown(event) {
+    if (event.key === 'Escape') closeProof();
+}
+
+onMounted(() => document.addEventListener('keydown', onKeydown));
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
+
+watch(() => route.params.id, loadPurchase, { immediate: true });
 </script>
 
 <template>
@@ -108,27 +81,27 @@ function closeProof() {
             <BackLink label="Lihat semua transaksi" routeName="purchases-view" variant="primary" />
         </section>
 
-        <section class="page-body">
+        <section v-if="current" class="page-body">
             <div class="date-kode-name">
                 <div class="meta-item date">
                     <i class="bi bi-calendar-check"></i>
-                    <span>{{ formatDate(purchasesData.tanggal) }}</span>
+                    <span>{{ formatDate(current.tanggal) }}</span>
                 </div>
                 <div class="meta-item kode">
                     <i class="bi bi-receipt"></i>
-                    <span>{{ purchasesData.kode }}</span>
+                    <span>{{ current.kode }}</span>
                 </div>
                 <div class="meta-item name">
                     <i class="bi bi-person-check"></i>
                     <span>
-                        Dibeli oleh <strong>{{ purchasesData.nama }}</strong>
+                        Dibeli oleh <strong>{{ current.nama }}</strong>
                     </span>
                 </div>
             </div>
 
             <div class="price">
                 <i class="bi bi-wallet"></i>
-                <span>Rp {{ purchasesData.total }}</span>
+                <span>Rp {{ current.total }}</span>
             </div>
 
             <div class="transaction-details">
@@ -143,10 +116,10 @@ function closeProof() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="purchasesData.items.length === 0">
+                            <tr v-if="current.items.length === 0">
                                 <td :colspan="head.length" class="empty-row">Belum ada data</td>
                             </tr>
-                            <tr v-for="item in purchasesData.items" :key="item.id">
+                            <tr v-for="item in current.items" :key="item.id">
                                 <td>{{ item.description }}</td>
                                 <td>{{ item.quantity }}</td>
                                 <td>{{ item.unit }}</td>
@@ -176,26 +149,26 @@ function closeProof() {
                     <div class="payment-row">
                         <p class="label">Jumlah Item</p>
                         <p class="value">
-                            <strong>{{ purchasesData.items.length }}</strong> Item
+                            <strong>{{ totalQty }}</strong> Item
                         </p>
                     </div>
                     <div class="payment-row">
                         <p class="label">Total</p>
-                        <p class="value">Rp{{ purchasesData.total }}</p>
+                        <p class="value">{{ formatRupiah(totalPrice) }}</p>
                     </div>
                     <div class="payment-row">
                         <p class="label">Catatan</p>
-                        <p class="value">{{ purchasesData.catatan || '-' }}</p>
+                        <p class="value">{{ current.catatan || '-' }}</p>
                     </div>
                     <div class="payment-row">
                         <p class="label">Bukti Pembayaran</p>
                         <div class="value">
                             <button
-                                v-if="purchasesData.bukti"
+                                v-if="current.bukti"
                                 type="button"
                                 class="proof-btn"
                                 aria-label="Lihat bukti pembayaran"
-                                @click="openProof(purchasesData.bukti)"
+                                @click="openProof(current.bukti)"
                             >
                                 Lihat gambar <i class="bi bi-image"></i>
                             </button>
@@ -204,6 +177,13 @@ function closeProof() {
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section v-else class="page-body">
+            <p class="empty-state">
+                <i class="bi bi-exclamation-circle"></i>
+                Data pembelian tidak ditemukan.
+            </p>
         </section>
 
         <div v-if="proofUrl" class="proof-overlay" @click.self="closeProof">
@@ -231,6 +211,18 @@ function closeProof() {
 
 .page-body {
     padding: 0 16px;
+}
+
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 24px;
+    border-radius: 8px;
+    background-color: #fff4ec;
+    color: #6b6b6b;
 }
 
 .date-kode-name {
@@ -289,7 +281,7 @@ function closeProof() {
 
 .transaction-details {
     margin-top: 16px;
-    border-top: 1px solid #d9d9d9;
+    /* border-top: 1px solid #d9d9d9; */
 }
 
 .table-wrapper {
@@ -321,7 +313,7 @@ tbody td {
 }
 
 .image-cell {
-    text-align: right;
+    text-align: center;
 }
 
 .empty-row {
@@ -331,7 +323,7 @@ tbody td {
 
 .payment-details {
     margin-top: 8px;
-    border-top: 1px solid #e5e5e5;
+    /* border-top: 1px solid #e5e5e5; */
 }
 
 .payment-list {
