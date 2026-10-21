@@ -202,6 +202,10 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
     font-family: 'Poppins', sans-serif;
 }
 
+strong {
+    font-weight: 600;
+}
+
 .purchase-detail {
     width: 100%;
     max-width: 100%;
@@ -348,6 +352,7 @@ tbody td {
 .payment-row .label {
     font-weight: 600;
     flex-shrink: 0;
+    font-size: medium;
 }
 
 .payment-row .value {
