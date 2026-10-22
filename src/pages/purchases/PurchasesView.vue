@@ -3,10 +3,12 @@ import { ref, computed, watch } from 'vue';
 import SearchInput from '@/components/SearchInput.vue';
 import ObjectTable from '@/components/Table.vue';
 import Pagination from '@/components/Pagination.vue';
-import Button from '@/components/Button.vue';
-import router from '@/router';
 import Link from '@/components/Link.vue';
 import { purchases } from '@/data/purchases';
+
+function formatRupiah(value) {
+    return 'Rp' + new Intl.NumberFormat('id-ID').format(value ?? 0);
+}
 
 const searchQuery = ref('');
 const currentPage = ref(1);
@@ -17,8 +19,14 @@ const purchasesData = ref(purchases);
 const totalItems = ref(purchasesData.value.length);
 const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage.value)));
 
-async function fetchData() {
-    // jalankan semisal ada ada perubahan halaman
+function fetchData() {
+    //Mungkin bisa di ganti ke getdata di api nanti
+    totalItems.value = purchases.length;
+
+    const start = (currentPage.value - 1) * perPage.value;
+    const end = start + perPage.value;
+
+    purchasesData.value = purchases.slice(start, end);
 }
 
 const proofUrl = ref(null);
@@ -66,6 +74,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                     :items="purchasesData"
                     :hide="['items']"
                 >
+                    <template #cell-total="{ row }">{{ formatRupiah(row.total) }}</template>
                     <template #cell-bukti="{ row }">
                         <div class="action-buttons">
                             <button
