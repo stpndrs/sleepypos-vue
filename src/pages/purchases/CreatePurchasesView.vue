@@ -35,7 +35,7 @@ async function loadPurchase() {
     }
 
     form.buyerName = purchase.nama;
-    form.total = Number(purchase.total.replace(/\./g, ''));
+    form.total = purchase.total;
     form.date = purchase.tanggal.split('/').reverse().join('-');
     form.note = purchase.catatan;
     form.paymentProof = purchase.bukti;
