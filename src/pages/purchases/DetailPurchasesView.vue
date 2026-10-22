@@ -42,8 +42,15 @@ const totalQty = computed(() =>
     (current.value?.items ?? []).reduce((sum, item) => sum + item.quantity, 0),
 );
 
-const totalPrice = computed(() =>
-    (current.value?.items ?? []).reduce((sum, item) => sum + item.price * item.quantity, 0),
+const rows = computed(() =>
+    (current.value?.items ?? []).map((item) => ({
+        description: item.description,
+        quantity: item.quantity,
+        unit: item.unit,
+        price: formatRupiah(item.price),
+        subtotal: formatRupiah(item.subtotal),
+        image: item.image,
+    })),
 );
 
 function loadPurchase(id) {
@@ -101,45 +108,26 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
 
             <div class="price">
                 <i class="bi bi-wallet"></i>
-                <span>Rp {{ current.total }}</span>
+                <span>{{ formatRupiah(current.total) }}</span>
             </div>
 
             <div class="transaction-details">
                 <p class="section-label">Transaction Details</p>
                 <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th v-for="(label, index) in head" :key="index">
-                                    {{ label }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-if="current.items.length === 0">
-                                <td :colspan="head.length" class="empty-row">Belum ada data</td>
-                            </tr>
-                            <tr v-for="item in current.items" :key="item.id">
-                                <td>{{ item.description }}</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.unit }}</td>
-                                <td>{{ formatRupiah(item.price) }}</td>
-                                <td>{{ formatRupiah(item.price * item.quantity) }}</td>
-                                <td class="image-cell">
-                                    <button
-                                        v-if="item.image"
-                                        type="button"
-                                        class="proof-btn"
-                                        :aria-label="`Lihat gambar ${item.description}`"
-                                        @click="openProof(item.image)"
-                                    >
-                                        Lihat gambar <i class="bi bi-image"></i>
-                                    </button>
-                                    <span v-else>-</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <ObjectTable class="flat-table" :head="head" :items="rows">
+                        <template #cell-image="{ row }">
+                            <button
+                                v-if="row.image"
+                                type="button"
+                                class="table-icon-btn"
+                                :aria-label="`Lihat gambar ${row.description}`"
+                                @click="openProof(row.image)"
+                            >
+                                <i class="bi bi-image"></i>
+                            </button>
+                            <span v-else>-</span>
+                        </template>
+                    </ObjectTable>
                 </div>
             </div>
 
@@ -154,7 +142,7 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
                     </div>
                     <div class="payment-row">
                         <p class="label">Total</p>
-                        <p class="value">{{ formatRupiah(totalPrice) }}</p>
+                        <p class="value">{{ formatRupiah(current.total) }}</p>
                     </div>
                     <div class="payment-row">
                         <p class="label">Catatan</p>
@@ -204,6 +192,21 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
 
 strong {
     font-weight: 600;
+}
+
+.transaction-details .flat-table {
+    border: none;
+    padding: 0;
+}
+
+.flat-table :deep(td) {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.flat-table :deep(th) {
+    font-weight: 500;
+    font-size: 20px;
 }
 
 .purchase-detail {
@@ -291,38 +294,26 @@ strong {
 .table-wrapper {
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
     contain: inline-size;
-    -webkit-overflow-scrolling: touch;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
+.table-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff6200;
+    color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-thead th {
-    padding: 10px 16px;
-    font-weight: 600;
-    font-size: 18px;
-    white-space: nowrap;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-tbody td {
-    padding: 8px 16px;
-    font-size: 18px;
-    white-space: nowrap;
-}
-
-.image-cell {
-    text-align: center;
-}
-
-.empty-row {
-    padding: 24px;
-    color: #6b6b6b;
+.table-icon-btn:hover {
+    background-color: #e05200;
 }
 
 .payment-details {
@@ -350,13 +341,15 @@ tbody td {
 }
 
 .payment-row .label {
-    font-weight: 600;
+    font-weight: 500;
     flex-shrink: 0;
-    font-size: medium;
+    font-size: 20px;
 }
 
 .payment-row .value {
     min-width: 0;
+    font-weight: 400;
+    font-size: 20px;
     text-align: right;
     overflow-wrap: anywhere;
 }
@@ -429,6 +422,10 @@ tbody td {
 }
 
 @media (max-width: 991.98px) {
+    .flat-table :deep(td) {
+        font-size: 16px;
+    }
+
     .page-header {
         flex-direction: column;
         align-items: flex-start;
@@ -452,12 +449,6 @@ tbody td {
     .price,
     .price i {
         font-size: 28px;
-    }
-
-    thead th,
-    tbody td {
-        font-size: 15px;
-        padding: 8px 12px;
     }
 
     .payment-list {
