@@ -1,0 +1,94 @@
+<script setup>
+import { useId } from 'vue';
+
+const props = defineProps({
+    modelValue: {
+        type: [String, Number],
+        default: '',
+    },
+    label: {
+        type: String,
+        default: '',
+    },
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    type: {
+        type: String,
+        default: 'text',
+    },
+    required: {
+        type: Boolean,
+        default: false,
+    },
+    min: {
+        type: [Number, String],
+        default: undefined,
+    },
+    id: {
+        type: String,
+        default: '',
+    },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const inputId = props.id || useId();
+
+function onInput(e) {
+    const raw = e.target.value;
+    const value = props.type === 'number' ? (raw === '' ? null : Number(raw)) : raw;
+    emit('update:modelValue', value);
+}
+</script>
+
+<template>
+    <div class="field">
+        <label v-if="label" :for="inputId">
+            {{ label }} <span v-if="required" class="required">*</span>
+        </label>
+        <input
+            :id="inputId"
+            :type="type"
+            :value="modelValue"
+            :placeholder="placeholder"
+            :min="min"
+            :required="required"
+            @input="onInput"
+        />
+    </div>
+</template>
+
+<style scoped>
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+label {
+    font-size: 16px;
+}
+
+.required {
+    color: #e53935;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 16px;
+    background: #f3f3f3;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+input::placeholder {
+    color: #8a8a8a;
+}
+</style>

@@ -2,15 +2,23 @@
 import { computed } from 'vue';
 
 const props = defineProps({
+    head: {
+        type: Array,
+        required: true,
+    },
     items: {
         type: Array,
         required: true,
+    },
+    hide: {
+        type: Array,
+        default: () => [],
     },
 });
 
 const tableColumns = computed(() => {
     if (props.items && props.items.length > 0) {
-        return Object.keys(props.items[0]);
+        return Object.keys(props.items[0]).filter((key) => !props.hide.includes(key));
     }
     return [];
 });
@@ -21,15 +29,23 @@ const tableColumns = computed(() => {
         <table>
             <thead>
                 <tr>
-                    <th v-for="col in tableColumns" :key="col">
-                        {{ col.toUpperCase() }}
+                    <th v-for="(label, index) in head" :key="index">
+                        {{ label }}
                     </th>
                 </tr>
             </thead>
             <tbody>
+                <tr v-if="items.length === 0">
+                    <td :colspan="head.length" class="empty-row">Belum ada data</td>
+                </tr>
                 <tr v-for="(row, index) in items" :key="index">
                     <td v-for="col in tableColumns" :key="col">
-                        {{ row[col] }}
+                        <slot :name="`cell-${col}`" :row="row" :value="row[col]">
+                            {{ row[col] }}
+                        </slot>
+                    </td>
+                    <td v-if="$slots.aksi">
+                        <slot name="aksi" :row="row" :index="index" />
                     </td>
                 </tr>
             </tbody>
@@ -60,7 +76,6 @@ table {
 }
 
 th {
-    text-transform: uppercase;
     border-bottom: 1px solid #d0d0d0;
     padding: 10px;
     text-align: center;
@@ -79,5 +94,10 @@ td {
 
 tbody tr:last-child td {
     border-bottom: none;
+}
+
+.empty-row {
+    color: #8a8a8a;
+    font-weight: normal;
 }
 </style>
