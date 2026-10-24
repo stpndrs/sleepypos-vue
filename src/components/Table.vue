@@ -55,9 +55,9 @@ const tableColumns = computed(() => {
 
 <style scoped>
 .table-border {
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 8px 16px;
+    /* border: 1px solid #e0e0e0; */
+    /* border-radius: 12px; */
+    /* padding: 8px 16px; */
     overflow-x: auto;
     width: 100%;
 }

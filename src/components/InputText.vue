@@ -6,6 +6,10 @@ const props = defineProps({
         type: [String, Number],
         default: '',
     },
+    isDisabled: {
+        type: Boolean,
+        default: false,
+    },
     label: {
         type: String,
         default: '',
@@ -55,6 +59,7 @@ function onInput(e) {
             :placeholder="placeholder"
             :min="min"
             :required="required"
+            :disabled="isDisabled"
             @input="onInput"
         />
     </div>
@@ -77,6 +82,7 @@ label {
 }
 
 input {
+    outline: 0;
     width: 100%;
     box-sizing: border-box;
     height: 48px;

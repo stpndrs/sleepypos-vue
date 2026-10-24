@@ -1,6 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import Button from '@/components/Button.vue'
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter()
+const route = useRoute()
 
 const props = defineProps({
     transaction: {
@@ -52,9 +56,14 @@ const statusClass = computed(() => {
         </div>
 
         <div class="card-footer">
-            <Button variant="primary-solid">
-                Lihat detail transaksi
-            </Button>
+            <div class="transaction-action">
+                <Button variant="primary-solid" @click="router.push({ name: 'detail-sales-view', params: {id: transaction.id} })">
+                    Detail transaksi
+                </Button>
+                <Button variant="border-primary" v-if="transaction.status == 'Draft'">
+                    Edit transaksi
+                </Button>
+            </div>
 
             <Button variant="border-danger">
                 Batalkan transaksi
@@ -167,5 +176,16 @@ const statusClass = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.transaction-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;
+}
+
+.transaction-action button {
+    width: 100%;
 }
 </style>
