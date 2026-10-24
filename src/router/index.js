@@ -5,6 +5,7 @@ import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue'
 import DetailPurchasesView from '@/pages/purchases/DetailPurchasesView.vue'
 import PurchasesView from '@/pages/purchases/PurchasesView.vue'
 import CreateSalesView from '@/pages/sales/CreateSalesView.vue'
+import DetailSalesView from '@/pages/sales/DetailSalesView.vue'
 import SalesView from '@/pages/sales/SalesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -46,6 +47,12 @@ const router = createRouter({
 							component: SalesView,
 							name: 'edit-sales-view',
 							meta: { hideSideBar: true, showTopBar: false }
+						},
+						{
+							path: '/sales/:id',
+							component: DetailSalesView,
+							name: 'detail-sales-view',
+							meta: { hideSideBar: true, title: ['Riwayat Penjualan', 'Detail Penjualan'] }
 						},
 					]
 				},
