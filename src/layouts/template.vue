@@ -1,14 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import Sidebar from './sidebar.vue';
 import Topbar from './topbar.vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
-const hideSideBar = computed(() => {
-    return route.meta?.hideSideBar ?? false;
+const route = useRoute()
+const hideSideBar = computed(() => route.meta?.hideSideBar ?? false);
+const isSidebarHide = ref(hideSideBar.value);
+watch(hideSideBar, (newValue) => {
+    isSidebarHide.value = newValue;
 });
-const isSidebarHide = ref(hideSideBar)
 const toggleSidebar = () => {
     isSidebarHide.value = !isSidebarHide.value;
 };
