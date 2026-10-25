@@ -57,10 +57,13 @@ const statusClass = computed(() => {
 
         <div class="card-footer">
             <div class="transaction-action">
-                <Button variant="primary-solid" @click="router.push({ name: 'detail-sales-view', params: {id: transaction.id} })">
+                <Button variant="primary-solid"
+                    @click="router.push({ name: 'detail-sales-view', params: { id: transaction.id } })">
                     Detail transaksi
                 </Button>
-                <Button variant="border-primary" v-if="transaction.status == 'Draft'">
+                <Button variant="border-primary"
+                    @click="router.push({ name: 'edit-sales-view', params: { id: transaction.id } })"
+                    v-if="transaction.status == 'Draft'">
                     Edit transaksi
                 </Button>
             </div>
