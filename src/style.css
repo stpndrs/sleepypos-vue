@@ -51,3 +51,9 @@ body {
     gap: 16px;
     flex-wrap: wrap;
 }
+
+.page-action {
+    gap: 10px;
+    display: flex;
+    justify-content: end;
+}
