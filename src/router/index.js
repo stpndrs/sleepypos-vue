@@ -12,6 +12,9 @@ import DetailSalesView from '@/pages/sales/DetailSalesView.vue'
 import EditSalesView from '@/pages/sales/EditSalesView.vue'
 import ReportSalesView from '@/pages/sales/ReportSalesView.vue'
 import SalesView from '@/pages/sales/SalesView.vue'
+import CustomersView from '@/pages/customers/CustomersView.vue';
+import CreateCustomersView from '@/pages/customers/CreateCustomersView.vue';
+import UpdateCustomersView from '@/pages/customers/UpdateCustomersView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -31,6 +34,30 @@ const router = createRouter({
 					name: 'dashboard',
 					meta: { title: ['Dashboard'] }
 				},
+				{
+                    path: '/customers',
+                    name: 'customers',
+                    children: [
+                        {
+                            path: '',
+                            component: CustomersView,
+                            name: 'customers-view',
+                            meta: { hideSideBar: false, title: ['Pelanggan', 'Daftar Pelanggan'] },
+                        },
+                        {
+                            path: 'create',
+                            component: CreateCustomersView,
+                            name: 'create-customers-view',
+                            meta: { hideSideBar: false, showTopBar: false },
+                        },
+                        {
+                            path: 'edit/:id',
+                            component: UpdateCustomersView,
+                            name: 'edit-customers-view',
+                            meta: { hideSideBar: false, showTopBar: false },
+                        },
+                    ],
+                },
 				{
 					path: '/sales',
 					name: 'sales',
@@ -132,4 +159,4 @@ const router = createRouter({
 	],
 })
 
-export default router
+export default router;
