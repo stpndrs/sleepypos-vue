@@ -8,72 +8,69 @@ defineProps({
     options: {
         type: Array,
         default: () => []
-    }
+    },
+    label: {
+        type: String,
+        default: '',
+    },
+    required: {
+        type: Boolean,
+        default: false,
+    },
+    id: {
+        type: String,
+        default: '',
+    },
 });
 
 defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <div class="form-field">
-        <div class="input-group select-wrapper">
-            <select :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
-                <option value="">{{ placeholder }}</option>
-                <option v-for="(item, index) in options" :key="index"
-                    :value="typeof item === 'object' ? item.value : item">
-                    {{ typeof item === 'object' ? item.label : item }}
-                </option>
-            </select>
-            <i class="bi bi-chevron-down"></i>
-        </div>
+    <div class="field">
+        <label v-if="label" :for="inputId">
+            {{ label }} <span v-if="required" class="required">*</span>
+        </label>
+        <select :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
+            <option value="">{{ placeholder }}</option>
+            <option v-for="(item, index) in options" :key="index" :value="typeof item === 'object' ? item.value : item">
+                {{ typeof item === 'object' ? item.label : item }}
+            </option>
+        </select>
     </div>
 </template>
 
 <style scoped>
-.form-field {
+.field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    min-width: 0;
+}
+
+label {
+    font-size: 16px;
     font-family: 'Poppins', sans-serif;
 }
 
-.input-group {
-    display: flex;
-    align-items: center;
-    background-color: #F4F4F4;
-    border-radius: 10px;
-    padding: 10px 14px;
-    gap: 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
+.required {
+    color: #e53935;
 }
 
-.input-group:focus-within {
-    border-color: #FF5C00;
-    background-color: #FFFFFF;
-}
-
-.select-wrapper select {
-    appearance: none;
-    cursor: pointer;
-    border: none;
-    background: transparent;
+select {
+    outline: 0;
     width: 100%;
-    outline: none;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 16px;
+    background: #f3f3f3;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    color: #333333;
-}
-
-i {
-    color: #7F7F7F;
     font-size: 14px;
-    pointer-events: none;
 }
 
-@media (max-width: 768px) {
-    .field-status {
-        width: 100%;
-    }
+input::placeholder {
+    color: #8a8a8a;
 }
 </style>

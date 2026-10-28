@@ -52,16 +52,10 @@ function onInput(e) {
         <label v-if="label" :for="inputId">
             {{ label }} <span v-if="required" class="required">*</span>
         </label>
-        <input
-            :id="inputId"
-            :type="type"
-            :value="modelValue"
-            :placeholder="placeholder"
-            :min="min"
-            :required="required"
-            :disabled="isDisabled"
-            @input="onInput"
-        />
+        <input v-if="type !== 'textarea'" :id="inputId" :type="type" :value="modelValue" :placeholder="placeholder"
+            :min="min" :required="required" :disabled="isDisabled" @input="onInput" />
+        <textarea v-else :id="inputId" :type="type" :value="modelValue" :placeholder="placeholder" :min="min"
+            :required="required" :disabled="isDisabled" @input="onInput"></textarea>
     </div>
 </template>
 
@@ -74,6 +68,7 @@ function onInput(e) {
 }
 
 label {
+    font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
 
@@ -81,17 +76,23 @@ label {
     color: #e53935;
 }
 
-input {
+input,
+textarea {
     outline: 0;
     width: 100%;
     box-sizing: border-box;
     height: 48px;
-    padding: 0 16px;
+    padding: 12px 16px;
     background: #f3f3f3;
     border: 1px solid #d9d9d9;
     border-radius: 12px;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
+}
+
+textarea {
+    padding: 16px !important;
+    height: 150px !important;
 }
 
 input::placeholder {
