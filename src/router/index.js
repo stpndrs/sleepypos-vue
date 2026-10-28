@@ -1,6 +1,6 @@
 import Main from '@/layouts/template.vue'
 import DashboardView from '@/pages/dashboard/DashboardView.vue'
-import LandingPageView from '@/pages/LandingPageView.vue'
+import LandingPageView from '@/pages/LandingPage/LandingPageView.vue'
 import CreateProductsView from '@/pages/products/CreateProductsView.vue'
 import EditProductsView from '@/pages/products/EditProductsView.vue'
 import ProductsView from '@/pages/products/ProductsView.vue'
