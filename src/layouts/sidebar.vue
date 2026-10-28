@@ -16,7 +16,7 @@ const menus = [
     { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name == 'users' },
     { title: 'Pelanggan', icon: 'bi-people', link: '/customers', active: route.name == ('customers-view', 'create-customers-view', 'edit-customers-view') },
     { title: 'Penjualan', icon: 'bi-bag', link: '/sales', active: route.name.includes('sales-view', 'create-sales-view', 'edit-sales-view') },
-    { title: 'Produk', icon: 'bi-box-seam', link: '/products', active: route.name == 'products' },
+    { title: 'Produk', icon: 'bi-box-seam', link: '/products', active: route.name.includes('products-view', 'create-products-view', 'edit-products-view') },
     { title: 'Stok', icon: 'bi-cart3', link: '/stocks', active: route.name == 'stocks' },
     { title: 'Pembelian', icon: 'bi-receipt', link: '/purchasing', active: route.name == 'purchasing' },
 ];

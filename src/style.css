@@ -57,3 +57,11 @@ body {
     display: flex;
     justify-content: end;
 }
+
+.btn-group {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
