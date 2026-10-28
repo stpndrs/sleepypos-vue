@@ -1,6 +1,9 @@
 import Main from '@/layouts/template.vue'
 import DashboardView from '@/pages/dashboard/DashboardView.vue'
 import LandingPageView from '@/pages/LandingPageView.vue'
+import CreateProductsView from '@/pages/products/CreateProductsView.vue'
+import EditProductsView from '@/pages/products/EditProductsView.vue'
+import ProductsView from '@/pages/products/ProductsView.vue'
 import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue'
 import DetailPurchasesView from '@/pages/purchases/DetailPurchasesView.vue'
 import PurchasesView from '@/pages/purchases/PurchasesView.vue'
@@ -61,6 +64,36 @@ const router = createRouter({
 							component: ReportSalesView,
 							name: 'report-sales-view',
 							meta: { hideSideBar: true, title: ['Riwayat Penjualan', 'Laporan Penjualan'] }
+						},
+					]
+				},
+				{
+					path: '/products',
+					name: 'products',
+					children: [
+						{
+							path: '/products',
+							component: ProductsView,
+							name: 'products-view',
+							meta: { hideSideBar: false, title: ['Daftar Produk'] }
+						},
+						{
+							path: '/products/create',
+							component: CreateProductsView,
+							name: 'create-products-view',
+							meta: { hideSideBar: false, title: ['Daftar Produk', 'Tambah Produk'] }
+						},
+						{
+							path: '/products/edit/:id',
+							component: EditProductsView,
+							name: 'edit-products-view',
+							meta: { hideSideBar: false, title: ['Daftar Produk', 'Edit Produk'] }
+						},
+						{
+							path: '/products/detail/:id',
+							component: DetailPurchasesView,
+							name: 'detail-products-view',
+							meta: { hideSideBar: false }
 						},
 					]
 				},
