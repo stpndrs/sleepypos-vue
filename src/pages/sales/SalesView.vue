@@ -114,6 +114,7 @@ const transactions = ref([
                 <p class="page-description">Riwayat transaksi penjualan pada sleepy-pos</p>
             </div>
             <div class="page-action">
+                <Link routeName="report-sales-view" variant="primary"><i class="bi bi-bar-chart-steps"></i> Lihat Laporan Penjualan</Link>
                 <Link routeName="create-sales-view" variant="primary">Tambah Transaksi</Link>
             </div>
         </section>
@@ -134,7 +135,7 @@ const transactions = ref([
 <style scoped>
 .data {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
     gap: 16px;
     margin-top: 20px;
 }

@@ -22,7 +22,7 @@ const emit = defineEmits(['add']);
         <div class="card-body">
             <div class="identity-row">
                 <span class="product-code">{{ products.code }}</span>
-                <span class="product-stock">Stock {{ products.stock }}</span>
+                <span class="product-stock">Stock {{ products.current_stock }}</span>
             </div>
             <div class="identity-row">
                 <h5 class="card-title">{{ products.name }}</h5>
