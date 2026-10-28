@@ -1,6 +1,6 @@
 import Main from '@/layouts/template.vue'
 import DashboardView from '@/pages/dashboard/DashboardView.vue'
-import LandingPageView from '@/pages/LandingPageView.vue'
+import LandingPageView from '@/pages/Landing page/LandingPageView.vue'
 import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue'
 import PurchasesView from '@/pages/purchases/PurchasesView.vue'
 import CreateSalesView from '@/pages/sales/CreateSalesView.vue'
@@ -11,7 +11,7 @@ const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
-			path: '/',
+			path: '',
 			component: LandingPageView,
 			name: 'landing-page',
 		},
