@@ -3,12 +3,14 @@ import InputDate from '@/components/InputDate.vue';
 import Chart from '@/components/Chart.vue';
 import TableComponent from '@/components/TableComponent.vue';
 import SearchInput  from '@/components/SearchInput.vue';
+
+
 </script>
 
 <template>
-  <section class="dashboard-container">
+  <section class="page-header">
 
-    <header class="page-body">
+    <header class="header-body">
 
       <h1 class="title">Dashboard</h1>
       <p class="subtitle">Cari data berdasarkan bulan</p>
@@ -59,6 +61,10 @@ import SearchInput  from '@/components/SearchInput.vue';
 </template>
 
 <style scoped>
+.page-body{
+  display: flex;
+
+}
 .header-table{
   display: grid;
 
@@ -73,7 +79,7 @@ import SearchInput  from '@/components/SearchInput.vue';
   padding: 20px;
 
 }
-.page-body {
+.header-body {
 
 
   background-color: #ffffff;
@@ -86,11 +92,8 @@ import SearchInput  from '@/components/SearchInput.vue';
   
 }
 
-.dashboard-header {
+.page-header {
   display: flex;
-  flex-direction: column;
-
-  gap: 8px;
 }
 
 .title {
