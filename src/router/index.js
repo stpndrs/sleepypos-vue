@@ -7,6 +7,7 @@ import ProductsView from '@/pages/products/ProductsView.vue'
 import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue'
 import DetailPurchasesView from '@/pages/purchases/DetailPurchasesView.vue'
 import PurchasesView from '@/pages/purchases/PurchasesView.vue'
+import ReportPurchasesView from '@/pages/purchases/ReportPurchasesView.vue'
 import CreateSalesView from '@/pages/sales/CreateSalesView.vue'
 import DetailSalesView from '@/pages/sales/DetailSalesView.vue'
 import EditSalesView from '@/pages/sales/EditSalesView.vue'
@@ -132,25 +133,31 @@ const router = createRouter({
 							path: '/purchases',
 							component: PurchasesView,
 							name: 'purchases-view',
-							meta: { hideSideBar: true, title: ['Riwayat Pembelian'] }
+							meta: { hideSideBar: true, title: ['Manajemen Pembelian'] }
 						},
 						{
 							path: '/purchases/create',
 							component: CreatePurchasesView,
 							name: 'create-purchases-view',
-							meta: { hideSideBar: true, showTopBar: false }
+							meta: { hideSideBar: true, title: ['Manajemen Pembelian'] }
 						},
 						{
 							path: '/purchases/edit/:id',
 							component: CreatePurchasesView,
 							name: 'edit-purchases-view',
-							meta: { hideSideBar: true, showTopBar: false }
+							meta: { hideSideBar: true, title: ['Manajemen Pembelian'] }
 						},
 						{
 							path: '/purchases/detail/:id',
 							component: DetailPurchasesView,
 							name: 'detail-purchases-view',
-							meta: { hideSideBar: true, showTopBar: false }
+							meta: { hideSideBar: true, title: ['Manajemen Pembelian', 'Detail Pembelian'] }
+						},
+						{
+							path: '/purchases/report',
+							component: ReportPurchasesView,
+							name: 'report-purchases-view',
+							meta: { hideSideBar: true, title: ['Manajemen Pembelian', 'Laporan Pembelian'] }
 						},
 					]
 				},
