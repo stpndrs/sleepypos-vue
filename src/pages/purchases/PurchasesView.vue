@@ -50,6 +50,9 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                 <p class="page-description">Riwayat pembelian bahan dan alat pada sleepy-pos</p>
             </div>
             <div class="page-action">
+                <Link routeName="report-purchases-view" variant="primary"
+                    ><i class="bi bi-bar-chart-steps"></i> Lihat Laporan Pembelian</Link
+                >
                 <Link routeName="create-purchases-view" variant="primary">Tambah Pembelian</Link>
             </div>
         </section>
