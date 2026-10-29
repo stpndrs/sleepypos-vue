@@ -1,8 +1,8 @@
 <script setup>
 import { computed, reactive, watch } from 'vue';
-import BackLink from '@/components/BackLink.vue';
 import InputDate from '@/components/InputDate.vue';
 import InputFile from '@/components/InputFile.vue';
+import Button from '@/components/Button.vue';
 import InputText from '@/components/InputText.vue';
 import SelectInput from '@/components/SelectInput.vue';
 import router from '@/router';
@@ -126,12 +126,13 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
 
 <template>
     <div class="page">
-        <section class="button-back">
-            <BackLink label="Lihat semua pembelian" routeName="purchases-view" variant="primary" />
+        <section class="page-header">
+            <div class="page-identity">
+                <h1 class="page-title">{{ isEdit ? 'Edit Pembelian' : 'Tambah Pembelian' }}</h1>
+            </div>
         </section>
 
         <section class="data">
-            <h1 class="page-title">{{ isEdit ? 'Edit Pembelian' : 'Tambah Pembelian' }}</h1>
             <form class="form" @submit.prevent="submitForm">
                 <div class="form-top">
                     <div class="column-left">
@@ -180,9 +181,9 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
                 </div>
 
                 <div class="items">
-                    <button type="button" class="btn btn-primary btn-add" @click="addItem">
-                        Tambah Item +
-                    </button>
+                    <div class="btn-add">
+                        <Button variant="primary-solid" @click="addItem">Tambah Item +</Button>
+                    </div>
 
                     <div v-for="item in form.items" :key="item.id" class="item-row">
                         <InputText
@@ -255,8 +256,8 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-outline" @click="cancel">Batalkan</button>
+                    <Button variant="primary-solid" type="submit">Simpan</Button>
+                    <Button variant="border-primary" @click="cancel">Batalkan</Button>
                 </div>
             </form>
         </section>
@@ -264,11 +265,6 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
 </template>
 
 <style scoped>
-.button-back {
-    height: 35px;
-    align-content: center;
-}
-
 .page-title {
     font-weight: 700;
     margin: 16px 0 24px;
@@ -364,28 +360,8 @@ input[readonly] {
     cursor: default;
 }
 
-.btn {
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background: #ff6a00;
-    border: 1px solid #ff6a00;
-    color: #fff;
-}
-
-.btn-outline {
-    background: #fff;
-    border: 1px solid #ff6a00;
-    color: #ff6a00;
-}
-
 .btn-add {
-    align-self: flex-start;
+    size: 30%;
 }
 
 .btn-remove {
@@ -394,7 +370,7 @@ input[readonly] {
     background: transparent;
     border: none;
     font-size: 22px;
-    color: #e53935;
+    color: #a79090;
     cursor: pointer;
 }
 
