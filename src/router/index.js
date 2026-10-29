@@ -15,6 +15,9 @@ import SalesView from '@/pages/sales/SalesView.vue'
 import CustomersView from '@/pages/customers/CustomersView.vue';
 import CreateCustomersView from '@/pages/customers/CreateCustomersView.vue';
 import UpdateCustomersView from '@/pages/customers/UpdateCustomersView.vue';
+import StocksView from '@/pages/Stocks/StocksView.vue';
+import CreateStocksView from '@/pages/Stocks/CreateStocksView.vue';
+import UpdateStocksView from '@/pages/Stocks/UpdateStocksView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -35,29 +38,29 @@ const router = createRouter({
 					meta: { title: ['Dashboard'] }
 				},
 				{
-                    path: '/customers',
-                    name: 'customers',
-                    children: [
-                        {
-                            path: '',
-                            component: CustomersView,
-                            name: 'customers-view',
-                            meta: { hideSideBar: false, title: ['Pelanggan', 'Daftar Pelanggan'] },
-                        },
-                        {
-                            path: 'create',
-                            component: CreateCustomersView,
-                            name: 'create-customers-view',
-                            meta: { hideSideBar: false, showTopBar: false },
-                        },
-                        {
-                            path: 'edit/:id',
-                            component: UpdateCustomersView,
-                            name: 'edit-customers-view',
-                            meta: { hideSideBar: false, showTopBar: false },
-                        },
-                    ],
-                },
+					path: '/customers',
+					name: 'customers',
+					children: [
+						{
+							path: '',
+							component: CustomersView,
+							name: 'customers-view',
+							meta: { hideSideBar: false, title: ['Pelanggan', 'Daftar Pelanggan'] },
+						},
+						{
+							path: 'create',
+							component: CreateCustomersView,
+							name: 'create-customers-view',
+							meta: { hideSideBar: false, showTopBar: false },
+						},
+						{
+							path: 'edit/:id',
+							component: UpdateCustomersView,
+							name: 'edit-customers-view',
+							meta: { hideSideBar: false, showTopBar: false },
+						},
+					],
+				},
 				{
 					path: '/sales',
 					name: 'sales',
@@ -153,6 +156,30 @@ const router = createRouter({
 							meta: { hideSideBar: true, showTopBar: false }
 						},
 					]
+				},
+				{
+					path: '/stocks',
+					name: 'stocks',
+					children: [
+						{
+							path: '',
+							component: StocksView,
+							name: 'stocks-view',
+							meta: { hideSideBar: false, title: ['Manajemen Stok Produk'] },
+						},
+						{
+							path: 'create',
+							component: CreateStocksView,
+							name: 'create-stocks-view',
+							meta: { hideSideBar: false, showTopBar: false },
+						},
+						{
+							path: 'edit/:id',
+							component: UpdateStocksView,
+							name: 'edit-stocks-view',
+							meta: { hideSideBar: false, showTopBar: false },
+						},
+					],
 				},
 			]
 		}
