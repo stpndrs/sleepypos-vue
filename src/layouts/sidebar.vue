@@ -1,24 +1,55 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router';
 
 defineProps({
     hide: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 });
 
 defineEmits(['toggle']);
-const route = useRoute()
+const route = useRoute();
 
 const menus = [
-    { title: 'Dashboard', icon: 'bi-grid-1x2', link: '/dashboard', active: route.name == 'dashboard' },
+    {
+        title: 'Dashboard',
+        icon: 'bi-grid-1x2',
+        link: '/dashboard',
+        active: route.name == 'dashboard',
+    },
     { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name == 'users' },
-    { title: 'Pelanggan', icon: 'bi-people', link: '/customers', active: route.name == ('customers-view', 'create-customers-view', 'edit-customers-view') },
-    { title: 'Penjualan', icon: 'bi-bag', link: '/sales', active: route.name.includes('sales-view', 'create-sales-view', 'edit-sales-view') },
-    { title: 'Produk', icon: 'bi-box-seam', link: '/products', active: route.name.includes('products-view', 'create-products-view', 'edit-products-view') },
+    {
+        title: 'Pelanggan',
+        icon: 'bi-people',
+        link: '/customers',
+        active: route.name == ('customers-view', 'create-customers-view', 'edit-customers-view'),
+    },
+    {
+        title: 'Penjualan',
+        icon: 'bi-bag',
+        link: '/sales',
+        active: route.name.includes('sales-view', 'create-sales-view', 'edit-sales-view'),
+    },
+    {
+        title: 'Produk',
+        icon: 'bi-box-seam',
+        link: '/products',
+        active: route.name.includes('products-view', 'create-products-view', 'edit-products-view'),
+    },
     { title: 'Stok', icon: 'bi-cart3', link: '/stocks', active: route.name == 'stocks' },
-    { title: 'Pembelian', icon: 'bi-receipt', link: '/purchasing', active: route.name == 'purchasing' },
+    {
+        title: 'Pembelian',
+        icon: 'bi-receipt',
+        link: '/purchases',
+        active: route.name.includes(
+            'purchases-view',
+            'create-purchases-view',
+            'edit-purchases-view',
+            'detail-purchases-view',
+            'report-purchases-view',
+        ),
+    },
 ];
 </script>
 
@@ -37,8 +68,12 @@ const menus = [
         </header>
 
         <ul class="menus">
-            <li v-for="(item, index) in menus" :key="index" :class="['menu-item', { active: item.active }]"
-                :data-tooltip="hide ? item.title : null">
+            <li
+                v-for="(item, index) in menus"
+                :key="index"
+                :class="['menu-item', { active: item.active }]"
+                :data-tooltip="hide ? item.title : null"
+            >
                 <a :href="item.link" class="menu-link">
                     <span class="menu-icon">
                         <i :class="['bi', item.icon]"></i>
@@ -52,9 +87,9 @@ const menus = [
 
 <style scoped>
 #sidebar {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 24px 16px;
-    border-right: 1px solid #EAEAEA;
+    border-right: 1px solid #eaeaea;
     width: 100%;
     height: 100vh;
     position: sticky;
@@ -114,18 +149,18 @@ header .header-content p {
 }
 
 header .header-content p:nth-child(1) {
-    color: #1A1A1A;
+    color: #1a1a1a;
     font-size: 20px;
     font-weight: 700;
 }
 
 header .header-content p:nth-child(1) span {
-    color: #FF5C00;
+    color: #ff5c00;
 }
 
 header .header-content p:nth-child(2) {
     font-size: 9px;
-    color: #8C8C8C;
+    color: #8c8c8c;
     letter-spacing: 1.2px;
     font-weight: 600;
 }
@@ -164,16 +199,16 @@ header .header-content p:nth-child(2) {
 }
 
 .menus .menu-item:hover {
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 .menus .menu-item.active {
-    background-color: #FFF5F0;
-    border: 1.5px solid #FF5C00;
+    background-color: #fff5f0;
+    border: 1.5px solid #ff5c00;
 }
 
 .menus .menu-item.active a.menu-link {
-    color: #FF5C00;
+    color: #ff5c00;
 }
 
 .menus .menu-item a.menu-link {
@@ -212,7 +247,7 @@ header .header-content p:nth-child(2) {
     transform: translateY(-50%);
     margin-left: 12px;
     background-color: #262626;
-    color: #FFFFFF;
+    color: #ffffff;
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 12px;
@@ -238,12 +273,11 @@ header .header-content p:nth-child(2) {
 }
 
 @media (max-width: 768px) {
-
     #sidebar,
     #sidebar.is-hide {
         height: auto;
         border-right: none;
-        border-top: 1px solid #EAEAEA;
+        border-top: 1px solid #eaeaea;
         padding: 8px 12px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
     }
