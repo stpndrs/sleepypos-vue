@@ -71,7 +71,7 @@ const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPa
 
 function fetchData() {
     //Mungkin bisa di ganti ke getdata di api nanti
-    totalItems.value = products.length;
+    totalItems.value = products.value.length;
 
     const start = (currentPage.value - 1) * perPage.value;
     const end = start + perPage.value;
