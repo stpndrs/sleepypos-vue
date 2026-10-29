@@ -190,6 +190,12 @@ watch(() => route.params.id, loadPurchase, { immediate: true });
     font-family: 'Poppins', sans-serif;
 }
 
+.page-action {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: left;
+}
+
 strong {
     font-weight: 600;
 }
@@ -217,7 +223,7 @@ strong {
 }
 
 .page-body {
-    padding: 0 16px;
+    padding: 0 15px;
 }
 
 .empty-state {
