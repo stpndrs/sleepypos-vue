@@ -13,7 +13,7 @@ const route = useRoute()
 
 const menus = [
     { title: 'Dashboard', icon: 'bi-grid-1x2', link: '/dashboard', active: route.name == 'dashboard' },
-    { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name.includes('Customer-view', 'create-Customer-view', 'edit-Customer-view') },
+    { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name.includes('users') },
     { title: 'Pelanggan', icon: 'bi-people', link: '/customers', active: route.name == ('customers-view', 'create-customers-view', 'edit-customers-view') },
     { title: 'Penjualan', icon: 'bi-bag', link: '/sales', active: route.name.includes('sales-view', 'create-sales-view', 'edit-sales-view') },
     { title: 'Produk', icon: 'bi-box-seam', link: '/products', active: route.name.includes('products-view', 'create-products-view', 'edit-products-view') },
