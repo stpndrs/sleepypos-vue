@@ -15,9 +15,9 @@ import SalesView from '@/pages/sales/SalesView.vue'
 import CustomersView from '@/pages/customers/CustomersView.vue';
 import CreateCustomersView from '@/pages/customers/CreateCustomersView.vue';
 import UpdateCustomersView from '@/pages/customers/UpdateCustomersView.vue';
-import StocksView from '@/pages/Stocks/StocksView.vue';
-import CreateStocksView from '@/pages/Stocks/CreateStocksView.vue';
-import UpdateStocksView from '@/pages/Stocks/UpdateStocksView.vue';
+import StocksView from '@/pages/stocks/StocksView.vue';
+import CreateStocksView from '@/pages/stocks/CreateStocksView.vue';
+import UpdateStocksView from '@/pages/stocks/UpdateStocksView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
