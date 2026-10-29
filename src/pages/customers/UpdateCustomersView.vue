@@ -1,20 +1,18 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import BackLink from '@/components/BackLink.vue';
-import InputFile from '@/components/InputFile.vue';
+import Button from '@/components/Button.vue';
 import InputText from '@/components/InputText.vue';
 import SelectInput from '@/components/SelectInput.vue';
 import router from '@/router';
 
-const form = reactive({
-    name: 'rizky',
-    phone: '081234567890',
-    prodi: 'Sistem Informasi',
-    angkatan: '2022',
-    notes: 'Pelanggan',
-});
+const name = ref('rizky');
+const phone = ref('081234567890');
+const prodi = ref('Sistem Informasi');
+const angkatan = ref('2022');
+const notes = ref('Pelanggan');
 
-const prodiOptions = [
+const prodiOptions = ref([
     'Sistem Informasi',
     'Informasi Teknologi',
     'Informatika',
@@ -23,14 +21,14 @@ const prodiOptions = [
     'Rekayasa Perangkat Lunak',
     'Teknik Komputer',
     'Teknik Elektro',
-];
+]);
 
-function handleSubmit() {
-    alert('Perubahan pelanggan berhasil disimpan!');
+function Submit() {
+    alert('Perubahan berhasil disimpan');
     router.push({ name: 'customers-view' });
 }
 
-function handleCancel() {
+function Cancel() {
     router.push({ name: 'customers-view' });
 }
 </script>
@@ -41,64 +39,40 @@ function handleCancel() {
             <BackLink label="Lihat semua pelanggan" routeName="customers-view" variant="primary" />
         </section>
 
+        <section class="page-header">
+            <div class="page-identity">
+                <h1 class="page-title">Edit Pelanggan</h1>
+                <p class="page-description">Edit data pelanggan</p>
+            </div>
+        </section>
+
         <section class="data">
-            <h1 class="page-title">Edit Pelanggan</h1>
-            <form class="form" @submit.prevent="handleSubmit">
+            <form class="form" @submit.prevent="Submit">
                 <div class="form-top">
                     <div class="column-left">
-                        <InputText
-                            v-model="form.name"
-                            label="Nama Pelanggan"
-                            placeholder="Nama pelanggan"
-                            required
-                        />
+                        <InputText v-model="name" label="Nama Pelanggan" placeholder="Nama pelanggan" required />
 
-                        <InputText
-                            v-model="form.phone"
-                            label="Nomor Telepon Pelanggan"
-                            placeholder="Nomor telepon pelanggan"
-                            required
-                        />
+                        <InputText v-model="phone" label="Nomor Telepon Pelanggan" placeholder="Nomor telepon pelanggan"
+                            required />
 
-                        <div class="field">
-                            <label>Program Studi Pelanggan</label>
-                            <SelectInput
-                                v-model="form.prodi"
-                                placeholder="Pilih Program Studi"
-                                :options="prodiOptions"
-                            />
-                        </div>
+                        <SelectInput v-model="prodi" label="Program Studi Pelanggan" placeholder="Pilih Program Studi"
+                            :options="prodiOptions" />
 
-                        <InputText
-                            v-model="form.angkatan"
-                            label="Tahun Angkatan Pelanggan"
-                            placeholder="Tahun angkatan pelanggan"
-                        />
+                        <InputText v-model="angkatan" label="Tahun Angkatan Pelanggan"
+                            placeholder="Tahun angkatan pelanggan" />
                     </div>
 
                     <div class="column-right">
-                        <div class="field">
-                            <label>Foto Pelanggan</label>
-                            <InputFile
-                                placeholder="Upload foto pelanggan"
-                                accept="image/*"
-                            />
-                        </div>
+                        <InputText label="Foto Pelanggan" placeholder="Upload foto pelanggan" type="file"
+                            accept="image/*" />
 
-                        <div class="field field-grow">
-                            <label for="notes">Catatan</label>
-                            <textarea
-                                id="notes"
-                                v-model="form.notes"
-                                placeholder="Catatan"
-                            ></textarea>
-                        </div>
+                        <InputText v-model="notes" label="Catatan" placeholder="Catatan" type="textarea" />
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <button type="button" class="btn btn-outline" @click="handleCancel">Batalkan</button>
+                <div class="btn-group">
+                    <Button type="submit" variant="primary-solid">Simpan Perubahan</Button>
+                    <Button type="button" variant="border-primary" @click="Cancel">Batalkan</Button>
                 </div>
             </form>
         </section>
@@ -109,11 +83,6 @@ function handleCancel() {
 .button-back {
     height: 35px;
     align-content: center;
-}
-
-.page-title {
-    font-weight: 700;
-    margin: 16px 0 24px;
 }
 
 .form {
@@ -138,64 +107,6 @@ function handleCancel() {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-}
-
-.field-grow {
-    flex: 1;
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-}
-
-label {
-    font-size: 16px;
-}
-
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    flex: 1;
-    min-height: 120px;
-    padding: 12px 16px;
-    background: #f3f3f3;
-    border: 1px solid #d9d9d9;
-    border-radius: 12px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    resize: none;
-}
-
-textarea::placeholder {
-    color: #8a8a8a;
-}
-
-.btn {
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background: #ff6a00;
-    border: 1px solid #ff6a00;
-    color: #fff;
-}
-
-.btn-outline {
-    background: #fff;
-    border: 1px solid #ff6a00;
-    color: #ff6a00;
 }
 
 @media (max-width: 991.98px) {
