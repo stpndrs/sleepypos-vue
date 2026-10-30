@@ -17,6 +17,7 @@ import CustomersView from '@/pages/customers/CustomersView.vue';
 import CreateCustomersView from '@/pages/customers/CreateCustomersView.vue';
 import UpdateCustomersView from '@/pages/customers/UpdateCustomersView.vue';
 import { createRouter, createWebHistory } from 'vue-router'
+import InventoriesView from '@/pages/inventories/InventoriesView.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -158,6 +159,18 @@ const router = createRouter({
 							component: ReportPurchasesView,
 							name: 'report-purchases-view',
 							meta: { hideSideBar: true, title: ['Manajemen Pembelian', 'Laporan Pembelian'] }
+						},
+					]
+				},
+				{
+					path: '/inventories',
+					name: 'inventories',
+					children: [
+						{
+							path: '/inventories',
+							component: InventoriesView,
+							name: 'inventories-view',
+							meta: { hideSideBar: true, title: ['Penyimpanan'] }
 						},
 					]
 				},
