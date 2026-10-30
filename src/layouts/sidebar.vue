@@ -50,6 +50,12 @@ const menus = [
             'report-purchases-view',
         ),
     },
+    {
+        title: 'Gudang',
+        icon: 'bi-houses',
+        link: '/inventories',
+        active: route.name.includes('inventories-view'),
+    },
 ];
 </script>
 
