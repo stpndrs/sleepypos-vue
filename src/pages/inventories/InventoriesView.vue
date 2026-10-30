@@ -50,7 +50,10 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                     <template #aksi="{ row }">
                         <div class="action-buttons">
                             <router-link
-                                :to="{ name: 'inventories-view', params: { id: row.kodeBarang } }"
+                                :to="{
+                                    name: 'detail-inventories-view',
+                                    params: { id: row.kodeBarang },
+                                }"
                                 class="detail-icon"
                                 aria-label="Detail Barang"
                             >
