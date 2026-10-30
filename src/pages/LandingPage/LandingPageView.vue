@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import heroImage from '@/assets/hero-chef.jpg'
 import Button from '@/components/Button.vue'
 import MenuCard from '@/components/MenuCard.vue'
+import DetailPreorder from '@/components/DetailPreorder.vue'
 const menuItems = ref([
   {
     id: 1,
@@ -64,24 +65,47 @@ const activeCategory = ref('Semua')
 const selectCategory = (category) => {
   activeCategory.value = category
 }
+const showPreorderModal = ref(false)
+const selectedPreorderData = ref(null)
+
+const handleOrder = (orderData) => {
+  selectedPreorderData.value = orderData
+  showPreorderModal.value = true
+}
+
+const handleConfirmOrder = (finalData) => {
+  console.log('Pesanan disubmit:', finalData)
+  alert(`Pesanan ${finalData.title} (x${finalData.quantity}) atas nama ${finalData.customerInfo.name} telah diterima!`)
+  
+  showPreorderModal.value = false
+}
 </script>
 
 <template>
-  <div class="page">
-    <section class="page-header">
-      <div class="logo">
+  <div class="page-container">
+
+    <header class="page-header">
+      <div class="page-identity">
+
+        <div class="logo">
         <h2>Sleepy Ruben</h2>
+        </div>
+
+        <nav class="nav-links">
+         <a href="#" class="nav-item active">Home</a>
+          <a href="#" class="nav-item">Menus</a>
+          <a href="#" class="nav-item">Contact</a>
+        </nav>
+      
       </div>
-      <nav class="nav-links">
-        <a href="#" class="nav-item active">Home</a>
-        <a href="#" class="nav-item">Menus</a>
-        <a href="#" class="nav-item">Contact</a>
-      </nav>
-    </section>
+    </header>
 
     <section class="page-body">
-      <div class="hero-card">
+
+      <section class="hero-card">
+
         <div class="hero-content">
+
           <div class="main-text">
             <span class="hero-subtitle">CHEESECUIT · COFFEE</span>
             <h1 class="hero-title">
@@ -105,6 +129,7 @@ const selectCategory = (category) => {
             <span class="dot">•</span>
             <span>08:00–22:00 WIB</span>
           </div>
+
         </div>
 
         <div class="hero-image-wrapper">
@@ -114,9 +139,10 @@ const selectCategory = (category) => {
             <p class="badge-title">To your table.</p>
           </div>
         </div>
-      </div>
 
-      <div class="menu">
+      </section>
+
+      <section class="menu">
         <div class="header-menu">
 
           <div class="header-text">
@@ -141,7 +167,7 @@ const selectCategory = (category) => {
         <div class="body-menu">
 
         </div>
-      </div>
+      </section>
 
       <div class="menu">
 
@@ -152,15 +178,10 @@ const selectCategory = (category) => {
       </div>
     </section>
 
-    <section class="page-footer">
-      <div>
-        
-      </div>
-
-    </section>
-
    <section class="page-footer">
+
       <div class="complain">
+
         <div class="complain-wrapper">
           
           <div class="complain-info">
@@ -194,6 +215,7 @@ const selectCategory = (category) => {
                 <label>Nama Lengkap</label>
                 <input type="text" placeholder="Jane Smith" />
               </div>
+
               <div class="form-group">
                 <label>Nomor Telepon / WhatsApp</label>
                 <input type="text" placeholder="(503) 555-0123" />
@@ -212,6 +234,7 @@ const selectCategory = (category) => {
 
         </div>
       </div>
+      
       <div class="company-tag">
         <div class="company-tag-wrapper">
           <div class="tag-logo">
@@ -226,13 +249,25 @@ const selectCategory = (category) => {
           </div>
         </div>
       </div>
+      
     </section>
-
+<DetailPreorder 
+      :show="showPreorderModal"
+      :orderData="selectedPreorderData"
+      @close="showPreorderModal = false"
+      @confirm="handleConfirmOrder"
+    />
 
   </div>
 </template>
 
 <style scoped>
+.page-identity{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 .page-footer {
   display: flex;
   margin-bottom: -80px;
@@ -426,7 +461,7 @@ const selectCategory = (category) => {
   width: 100%;
 }
 
-.page {
+.page-container{
 
   background-color: #ffffff;
   min-height: 100px;
@@ -439,7 +474,8 @@ const selectCategory = (category) => {
   justify-content: space-between;
   align-items: center;
   max-width: 1000px;
-  margin: 0 auto 40px auto;
+  margin: 0 auto ;
+  padding: 24px 0;
 }
 
 .logo h2 {

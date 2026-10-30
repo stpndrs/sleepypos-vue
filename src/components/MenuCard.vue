@@ -46,7 +46,9 @@ const handleOrder = () => {
     id: props.id,
     title: props.title,
     price: props.price,
-    quantity: quantity.value
+    quantity: quantity.value,
+    image: props.image
+    
   })
 }
 </script>
