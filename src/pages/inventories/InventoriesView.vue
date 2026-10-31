@@ -46,13 +46,14 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                 <ObjectTable
                     :head="['KODE BARANG', 'NAMA', 'QTY', 'SATUAN', 'CATATAN', 'AKSI']"
                     :items="inventoriesData"
+                    :hide="['history']"
                 >
                     <template #aksi="{ row }">
                         <div class="action-buttons">
                             <router-link
                                 :to="{
                                     name: 'detail-inventories-view',
-                                    params: { id: row.kodeBarang },
+                                    params: { id: row.kode },
                                 }"
                                 class="detail-icon"
                                 aria-label="Detail Barang"
