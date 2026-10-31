@@ -470,6 +470,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .page-header {
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -479,13 +480,15 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .logo h2 {
+  font-family: DM-sans;
   font-size: 30px;
-  font-weight: 700;
   color: #1a1a1a;
+  font-weight: 700;
   margin: 0;
 }
 
 .nav-links {
+  font-family: Poppins;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -505,6 +508,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .page-body {
+  font-family: Newsreader;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -541,6 +545,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .hero-title {
+  font-family: Newsreader;
   font-size: 52px;
   line-height: 50px;
   font-weight: 50px;
@@ -553,6 +558,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .hero-description {
+  font-family: Newsreader;
   color: #a0aab0;
   font-size: 15px;
   margin: 0 0 30px 0;
@@ -661,6 +667,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .menu-description {
+  font-family: Newsreader;
   color: #6b7280;
   font-size: 0.95rem;
   line-height: 1.5;
