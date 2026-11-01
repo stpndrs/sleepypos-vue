@@ -20,6 +20,7 @@ import CreateStocksView from '@/pages/stocks/CreateStocksView.vue';
 import UpdateStocksView from '@/pages/stocks/UpdateStocksView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import InventoriesView from '@/pages/inventories/InventoriesView.vue';
+import DetailInventoriesView from '@/pages/inventories/DetailInventoriesView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -195,12 +196,7 @@ const router = createRouter({
                         {
                             path: '/inventories',
                             component: InventoriesView,
-             {
-        title: 'Pembelian',
-        icon: 'bi-receipt',
-        link: '/purchasing',
-        active: route.name == 'purchasing',
-    },               name: 'inventories-view',
+                            name: 'inventories-view',
                             meta: { hideSideBar: true, title: ['Penyimpanan'] },
                         },
                         {
