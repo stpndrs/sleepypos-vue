@@ -6,6 +6,7 @@ import InputText from '@/components/InputText.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import SearchInput from '@/components/SearchInput.vue';
 import SelectInput from '@/components/SelectInput.vue';
+import { useToast } from '@/composables/useToast';
 import { ref, watch } from 'vue';
 
 const searchQuery = ref('')
@@ -17,6 +18,7 @@ const paymentProof = ref('')
 const subTotal = ref(16000)
 const discount = ref(0)
 const total = ref(16000)
+const { addToast } = useToast()
 
 // State kontrol modal khusus mobile
 const isSummaryOpen = ref(false)
@@ -124,8 +126,9 @@ function addItem(id) {
         item.price += findProduct(id).unit_price
         findProduct(id).current_stock -= 1
         calculateSubTotal()
+        addToast('Item baru berhasil ditambahkan!', 'success')
     } else {
-        alert("Stock Habis")
+        addToast('Item gagal ditambahkan. Stok habis!', 'danger')
     }
 }
 
