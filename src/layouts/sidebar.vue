@@ -18,7 +18,7 @@ const menus = [
         link: '/dashboard',
         active: route.name == 'dashboard',
     },
-    { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name == 'users' },
+    { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name.includes('users') },
     {
         title: 'Pelanggan',
         icon: 'bi-people',
@@ -37,7 +37,12 @@ const menus = [
         link: '/products',
         active: route.name.includes('products-view', 'create-products-view', 'edit-products-view'),
     },
-    { title: 'Stok', icon: 'bi-cart3', link: '/stocks', active: route.name == 'stocks' },
+    {
+        title: 'Stok',
+        icon: 'bi-cart3',
+        link: '/stocks',
+        active: route.name.includes('Stocks-view', 'create-Stocks-view', 'edit-Stocks-view'),
+    },
     {
         title: 'Pembelian',
         icon: 'bi-receipt',
@@ -54,7 +59,7 @@ const menus = [
         title: 'Gudang',
         icon: 'bi-houses',
         link: '/inventories',
-        active: route.name.includes('inventories-view'),
+        active: route.name.includes('inventories-view', 'detail-inventories-view'),
     },
 ];
 </script>

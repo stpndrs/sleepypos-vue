@@ -4,12 +4,15 @@ import SearchInput from '@/components/SearchInput.vue';
 import ObjectTable from '@/components/Table.vue';
 import Pagination from '@/components/Pagination.vue';
 import Link from '@/components/Link.vue';
+import Button from '@/components/Button.vue';
+import router from '@/router';
 
 const searchQuery = ref('');
 const currentPage = ref(1);
 const perPage = ref(10);
+const imageUrl = ref(null);
 
-const customers = [
+const customers =ref( [
     {
         no: 1,
         name: 'rizky',
@@ -17,17 +20,17 @@ const customers = [
         angkatan: '2022',
         notes: 'Pelanggan',
         phone: '081234567890',
-        photo: 'ada',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 1,
     },
     {
         no: 2,
-        name: 'agus',
+        name: 'rakha',
         prodi: 'Informasi Teknologi',
         angkatan: '2024',
         notes: 'Pelanggan',
         phone: '085845797669',
-        photo: 'ada',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 2,
     },
     {
@@ -37,17 +40,17 @@ const customers = [
         angkatan: '2023',
         notes: 'Pelanggan',
         phone: '082198765432',
-        photo: 'ada',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 3,
     },
     {
         no: 4,
-        name: 'raka',
+        name: 'fadhil',
         prodi: 'Bisnis Digital',
         angkatan: '2025',
         notes: 'Pelanggan',
         phone: '081398761234',
-        photo: 'ada',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 4,
     },
     {
@@ -57,65 +60,71 @@ const customers = [
         angkatan: '2022',
         notes: 'Pelanggan',
         phone: '087812345678',
-        photo: 'ada',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 5,
     },
     {
         no: 6,
-        name: 'fadil',
+        name: 'chandra',
         prodi: 'Sains Data',
-        angkatan: '2025',
+        angkatan: '2021',
         notes: 'Pelanggan',
-        phone: '089612345678',
-        photo: 'ada',
+        phone: '081298765432',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 6,
     },
     {
         no: 7,
-        name: 'ruben',
+        name: 'virza',
         prodi: 'Rekayasa Perangkat Lunak',
         angkatan: '2023',
         notes: 'Pelanggan',
-        phone: '085212345678',
-        photo: 'ada',
+        phone: '085712349876',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 7,
     },
     {
         no: 8,
-        name: 'samsul',
+        name: 'ruben',
         prodi: 'Teknik Elektro',
-        angkatan: '2024',
+        angkatan: '2020',
         notes: 'Pelanggan',
-        phone: '081287654321',
-        photo: 'ada',
+        phone: '082234567891',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 8,
     },
     {
         no: 9,
-        name: 'Rizky',
+        name: 'dhimaz',
         prodi: 'Sistem Informasi',
-        angkatan: '2021',
-        notes: 'Alumni kampus',
-        phone: '083812345678',
-        photo: 'ada',
+        angkatan: '2024',
+        notes: 'Pelanggan',
+        phone: '081345678912',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 9,
     },
     {
         no: 10,
-        name: 'Zahra',
-        prodi: 'Bisnis Digital',
-        angkatan: '2026',
-        notes: 'Mahasiswa baru',
-        phone: '085712345678',
-        photo: 'ada',
+        name: 'rizky',
+        prodi: 'Informasi Teknologi',
+        angkatan: '2022',
+        notes: 'Pelanggan',
+        phone: '087798765432',
+        photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
         id: 10,
-    },
-];
+    }
+]);
 
-function viewPhoto() {
+function openImage(url) {
+    imageUrl.value = url;
 }
 
-function handleDelete() {
+function closeImage() {
+    imageUrl.value = null;
+}
+
+function Delete() {
+    confirm('Apakah anda yakin ingin menghapus data pelanggan ini?');
 }
 </script>
 
@@ -124,7 +133,6 @@ function handleDelete() {
         <section class="page-header">
             <div class="page-identity">
                 <h1 class="page-title">Daftar Pelanggan</h1>
-                <p class="page-description">Riwayat data pelanggan pada sleepy-pos</p>
             </div>
             <div class="page-action">
                 <Link routeName="create-customers-view" variant="primary">Tambah Pelanggan</Link>
@@ -133,7 +141,7 @@ function handleDelete() {
 
         <section class="page-body">
             <section class="filters">
-                <SearchInput v-model="searchQuery" placeholder="Cari berdasarkan nama atau nomor telepon" />
+                <SearchInput v-model="searchQuery" placeholder="Cari berdasarkan nama atau nomor telepon pelanggan" />
             </section>
             <section class="data">
                 <ObjectTable :head="[
@@ -146,24 +154,23 @@ function handleDelete() {
                     'FOTO PELANGGAN',
                     'AKSI',
                 ]" :items="customers" :hide="['id']">
-                    <template #cell-photo>
+                    <template #cell-photo="{ row }">
                         <div class="action-buttons">
-                            <button type="button" class="edit-icon proof-btn" aria-label="Lihat foto pelanggan"
-                                @click="viewPhoto">
+                            <Button variant="primary-solid" aria-label="Lihat foto pelanggan"
+                                @click="openImage(row.photo)">
                                 <i class="bi bi-image"></i>
-                            </button>
+                            </Button>
                         </div>
                     </template>
                     <template #aksi="{ row }">
                         <div class="action-buttons">
-                            <router-link :to="{ name: 'edit-customers-view', params: { id: row.id } }" class="edit-icon"
-                                aria-label="Edit pelanggan">
+                            <Button variant="primary-solid" aria-label="Edit pelanggan"
+                                @click="router.push({ name: 'edit-customers-view', params: { id: row.id } })">
                                 <i class="bi bi-pencil"></i>
-                            </router-link>
-                            <button type="button" class="delete-icon" aria-label="Hapus pelanggan"
-                                @click="handleDelete">
+                            </Button>
+                            <Button variant="border-danger" aria-label="Hapus pelanggan" @click="Delete">
                                 <i class="bi bi-trash"></i>
-                            </button>
+                            </Button>
                         </div>
                     </template>
                 </ObjectTable>
@@ -175,6 +182,17 @@ function handleDelete() {
                 <Pagination v-model:currentPage="currentPage" v-model:perPage="perPage" :totalPages="10" />
             </div>
         </section>
+
+        <Teleport to="body">
+            <div v-if="imageUrl" class="image-overlay" @click.self="closeImage">
+                <div class="image-modal">
+                    <button type="button" class="image-close" aria-label="Tutup" @click="closeImage">
+                        &times;
+                    </button>
+                    <img :src="imageUrl" alt="Foto pelanggan" />
+                </div>
+            </div>
+        </Teleport>
     </div>
 </template>
 
@@ -186,7 +204,7 @@ function handleDelete() {
 }
 
 .filters {
-    width: 300px;
+    width: 35%;
 }
 
 .data {
@@ -201,58 +219,58 @@ function handleDelete() {
     justify-content: flex-end;
 }
 
-.edit-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    border-radius: 10px;
-    color: #ffffff;
-    background-color: #ff6200;
-    text-decoration: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition:
-        background-color 0.2s,
-        opacity 0.2s;
-}
-
-.edit-icon:hover {
-    background-color: #e05200;
-}
-
-.delete-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    border-radius: 10px;
-    color: #ff6200;
-    background-color: #ffffff;
-    border: 1px solid #ff6200;
-    padding: 0;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.delete-icon:hover {
-    background-color: #fff5f0;
-}
-
 .action-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
 }
 
-.proof-btn {
+.image-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.image-modal {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    max-width: 80vw;
+    max-height: 80vh;
+}
+
+.image-modal img {
+    display: block;
+    max-width: 76vw;
+    max-height: 74vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.image-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
     background-color: #ff6200;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.image-close:hover {
+    background-color: #e05200;
 }
 
 @media (max-width: 991.98px) {

@@ -71,7 +71,7 @@ const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPa
 
 function fetchData() {
     //Mungkin bisa di ganti ke getdata di api nanti
-    totalItems.value = products.length;
+    totalItems.value = products.value.length;
 
     const start = (currentPage.value - 1) * perPage.value;
     const end = start + perPage.value;
@@ -138,7 +138,8 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                                 @click="router.push({ name: 'edit-products-view', params: { id: row.id } })">
                                 <i class="bi bi-pencil"></i>
                             </Button>
-                            <Button :variant="row.isActive ? 'primary-solid' : 'border-danger'" @click="toggleStatus(row.id)">
+                            <Button :variant="row.isActive ? 'primary-solid' : 'border-danger'"
+                                @click="toggleStatus(row.id)">
                                 <i class="bi bi-power"></i>
                             </Button>
                         </div>
@@ -166,7 +167,6 @@ watch([currentPage, perPage], fetchData, { immediate: true });
 </template>
 
 <style scoped>
-
 .data {
     margin-top: 20px;
     contain: inline-size;
@@ -258,6 +258,10 @@ watch([currentPage, perPage], fetchData, { immediate: true });
         text-align: center;
         width: 100%;
         box-sizing: border-box;
+    }
+
+    .filters {
+        width: 100%;
     }
 }
 </style>

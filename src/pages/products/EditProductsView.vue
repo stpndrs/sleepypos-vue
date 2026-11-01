@@ -70,12 +70,14 @@ const submit = async () => {
                                     value: 1
                                 },
                             ]" />
-                        <InputText label="Nama Produk" v-model="name" :required="true" placeholder="Nama produk" type="text" />
+                        <InputText label="Nama Produk" v-model="name" :required="true" placeholder="Nama produk"
+                            type="text" />
                     </div>
                     <div class="col">
-                        <InputText label="Harga Produk" v-model="price" :required="true" placeholder="Harga produk" type="number" />
-                        <InputText label="Upload gambar Produk" v-model="images" :required="false" placeholder="Upload gambar produk"
-                            type="file" />
+                        <InputText label="Harga Produk" v-model="price" :required="true" placeholder="Harga produk"
+                            type="number" />
+                        <InputText label="Upload gambar Produk" v-model="images" :required="false"
+                            placeholder="Upload gambar produk" type="file" />
                         <InputText label="Catatan Produk" v-model="notes" :required="false" placeholder="Catatan produk"
                             type="textarea" />
                     </div>
@@ -97,5 +99,11 @@ const submit = async () => {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+}
+
+@media (max-width: 991.98px) {
+    .form-body {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
