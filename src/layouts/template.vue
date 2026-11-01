@@ -3,7 +3,10 @@ import { computed, ref, watch } from 'vue';
 import Sidebar from './sidebar.vue';
 import Topbar from './topbar.vue';
 import { useRoute } from 'vue-router';
+import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/useToast.js';
 
+const { toasts, removeToast } = useToast()
 const route = useRoute()
 const hideSideBar = computed(() => route.meta?.hideSideBar ?? false);
 const isSidebarHide = ref(hideSideBar.value);
@@ -29,6 +32,12 @@ const showTopBar = computed(() => {
             <Topbar />
         </nav>
         <main>
+            <div class="toast-container">
+                <TransitionGroup name="toast-fade">
+                    <Toast v-for="toast in toasts" :key="toast.id" :id="toast.id" :label="toast.label"
+                        :variant="toast.variant" @close="removeToast" />
+                </TransitionGroup>
+            </div>
             <router-view />
         </main>
     </div>
@@ -61,6 +70,31 @@ nav {
 main {
     grid-area: main;
     padding: 24px 24px 80px 24px;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.toast-fade-enter-from {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.toast-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 @media (max-width: 768px) {

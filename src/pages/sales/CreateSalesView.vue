@@ -6,8 +6,10 @@ import InputText from '@/components/InputText.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import SearchInput from '@/components/SearchInput.vue';
 import SelectInput from '@/components/SelectInput.vue';
+import { useToast } from '@/composables/useToast.js';
 import { ref, watch } from 'vue';
 
+const { addToast } = useToast()
 const searchQuery = ref('')
 const selectedCategory = ref('')
 const categoryOptions = ref(['Makanan', 'Minuman', 'Paket'])
@@ -111,8 +113,9 @@ function addItem(id) {
         item.price += findProduct(id).unit_price
         findProduct(id).current_stock -= 1
         calculateSubTotal()
+        addToast('Item berhasil ditambahkan!', 'success')
     } else {
-        alert("Stock Habis")
+        addToast('Item gagal ditambahkan. Stok habis!', 'danger')
     }
 }
 
