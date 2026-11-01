@@ -11,12 +11,34 @@ const current = ref(null);
 
 const head = ['Jenis', 'Qty', 'Satuan', 'Tanggal'];
 
+const BULAN = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+];
+
+function formatDate(value) {
+    if (!value) return '-';
+    const [d, m, y] = value.split('/');
+    const month = BULAN[Number(m) - 1];
+    return month ? `${d} ${month} ${y}` : value;
+}
+
 const rows = computed(() =>
     (current.value?.history ?? []).map((item) => ({
         jenis: item.jenis,
         Qty: item.qty,
         Satuan: current.value.satuan,
-        Tanggal: item.tanggal,
+        Tanggal: formatDate(item.tanggal),
     })),
 );
 
@@ -35,20 +57,20 @@ watch(() => route.params.id, loadInventory, { immediate: true });
             </div>
         </section>
         <section class="page-action">
-            <BackLink label="Lihat inventory" routeName="inventories-view" variant="primary" />
+            <BackLink label="Lihat semua barang" routeName="inventories-view" variant="primary" />
         </section>
         <section v-if="current" class="page-body">
             <div class="detail">
                 <p class="section-label">Detail Barang</p>
                 <div class="detail-list">
                     <div class="detail-row">
-                        <p class="label">Kode Barang</p>
+                        <p class="label">Kode barang</p>
                         <p class="value">
                             <strong>{{ current.kode }}</strong>
                         </p>
                     </div>
                     <div class="detail-row">
-                        <p class="label">Nama Barang</p>
+                        <p class="label">Nama barang</p>
                         <p class="value">{{ current.nama }}</p>
                     </div>
                     <div class="detail-row">
@@ -57,7 +79,9 @@ watch(() => route.params.id, loadInventory, { immediate: true });
                     </div>
                     <div class="detail-row">
                         <p class="label">Stock Saat Ini</p>
-                        <p class="value">{{ current.qty + current.satuan }}</p>
+                        <p class="value">
+                            <strong>{{ current.qty }}</strong> {{ current.satuan }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -71,7 +95,7 @@ watch(() => route.params.id, loadInventory, { immediate: true });
         <section v-else class="page-body">
             <p class="empty-state">
                 <i class="bi bi-exclamation-circle"></i>
-                Data pembelian tidak ditemukan.
+                Data barang tidak ditemukan.
             </p>
         </section>
     </div>
@@ -144,16 +168,7 @@ strong {
     contain: inline-size;
 }
 
-.history-details .flat-table {
-    border: none;
-    padding: 0;
-}
-
 @media (max-width: 991.98px) {
-    .flat-table :deep(td) {
-        font-size: 16px;
-    }
-
     .page-header {
         flex-direction: column;
         align-items: flex-start;

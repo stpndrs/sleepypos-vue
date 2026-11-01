@@ -39,7 +39,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
             <section class="filters">
                 <SearchInput
                     v-model="searchQuery"
-                    placeholder="Cari data berdasarkan nama atau kode produk"
+                    placeholder="Cari berdasarkan nama atau kode barang"
                 />
             </section>
             <section class="data">
@@ -85,7 +85,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
 }
 
 .filters {
-    width: 30px;
+    width: 30%;
 }
 
 .data {
