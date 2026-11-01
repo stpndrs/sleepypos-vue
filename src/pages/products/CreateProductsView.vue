@@ -98,4 +98,10 @@ const submit = async () => {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
+
+@media (max-width: 991.98px) {
+    .form-body {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
