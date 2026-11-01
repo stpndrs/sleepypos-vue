@@ -18,6 +18,17 @@ const subTotal = ref(16000)
 const discount = ref(0)
 const total = ref(16000)
 
+// State kontrol modal khusus mobile
+const isSummaryOpen = ref(false)
+
+function toggleSummary() {
+    isSummaryOpen.value = !isSummaryOpen.value
+}
+
+function closeSummary() {
+    isSummaryOpen.value = false
+}
+
 const selectedItems = ref([
     {
         id: 1,
@@ -103,7 +114,6 @@ function selectItem(id) {
     selectedItems.value.push(item)
     calculateSubTotal()
     console.log(item.qty, currentStock)
-
 }
 
 function addItem(id) {
@@ -180,6 +190,9 @@ watch(discount, () => {
                     <SearchInput v-model="searchQuery" placeholder="Cari data berdasarkan nama atau kode produk" />
                     <SelectInput v-model="selectedCategory" placeholder="Pilih Kategori" :options="categoryOptions" />
                     <Button variant="primary" @click="clearFilter()">Bersihkan Filter</Button>
+                    <Button variant="primary-solid" class="btn-summary" @click="toggleSummary()">
+                        <i class="bi bi-wallet-fill"></i> Lihat Ringkasan Belanja ({{ selectedItems.length }})
+                    </Button>
                 </section>
                 <section class="products">
                     <ProductCard v-for="(item, index) in products" :key="index" :products="item"
@@ -187,7 +200,14 @@ watch(discount, () => {
                 </section>
             </section>
 
-            <aside class="summary">
+            <div v-if="isSummaryOpen" class="summary-overlay" @click="closeSummary()"></div>
+
+            <aside class="summary" :class="{ 'is-open': isSummaryOpen }">
+                <div class="summary-header-mobile">
+                    <span>Ringkasan Belanja</span>
+                    <button class="close-btn" @click="closeSummary()">&times;</button>
+                </div>
+
                 <div class="identity">
                     <h3 class="summary-title">Data Transaksi</h3>
                     <h2 class="transaction-code">#P0001</h2>
@@ -251,7 +271,7 @@ watch(discount, () => {
                     </Button>
                 </div>
 
-                <Button variant="border-danger">Cancel</Button>
+                <Button variant="border-danger" @click="closeSummary()">Cancel</Button>
             </aside>
         </section>
     </div>
@@ -274,13 +294,28 @@ watch(discount, () => {
     gap: 10px;
 }
 
+.btn-summary {
+    display: none;
+}
+
+.summary-header-mobile {
+    display: none;
+}
+
+.summary-overlay {
+    display: none;
+}
+
 .summary {
     border-left: 1px solid #E5E5E5;
-    padding: 24px 20px;
+    padding: 15px 20px;
     background-color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
     display: flex;
     flex-direction: column;
+    height: 95vh;
+    position: sticky;
+    top: 24px;
 }
 
 .identity {
@@ -438,6 +473,114 @@ watch(discount, () => {
     .page-body {
         grid-template-columns: 1fr;
         padding-bottom: 30px;
+    }
+
+    .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-summary {
+        display: block;
+        width: 100%;
+    }
+
+    .summary-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .summary-header-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 12px;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+        color: #666;
+    }
+
+    .summary {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%) scale(0.95);
+        width: 90%;
+        max-width: 420px;
+        max-height: 85vh;
+        background-color: #FFFFFF;
+        z-index: 1000;
+        border-radius: 16px;
+        border-left: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+        overflow-y: auto;
+    }
+
+    .summary.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .summary-title {
+        font-size: 15px;
+    }
+
+    .transaction-code {
+        font-size: 22px;
+    }
+
+    .divider {
+        margin: 10px 0;
+    }
+
+    .divider-label {
+        font-size: 13px;
+    }
+
+    .items {
+        height: auto;
+        max-height: 140px;
+        gap: 12px;
+    }
+
+    .item-title {
+        font-size: 15px;
+    }
+
+    .item-price {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .item-qty {
+        padding: 4px 12px;
     }
 }
 </style>
