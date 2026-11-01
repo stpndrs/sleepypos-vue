@@ -470,6 +470,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .page-header {
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -479,13 +480,15 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .logo h2 {
+  font-family: DM-sans;
   font-size: 30px;
-  font-weight: 700;
   color: #1a1a1a;
+  font-weight: 700;
   margin: 0;
 }
 
 .nav-links {
+  font-family: Poppins;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -505,6 +508,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .page-body {
+  font-family: Newsreader;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -541,6 +545,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .hero-title {
+  font-family: Newsreader;
   font-size: 52px;
   line-height: 50px;
   font-weight: 50px;
@@ -553,6 +558,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .hero-description {
+  font-family: Newsreader;
   color: #a0aab0;
   font-size: 15px;
   margin: 0 0 30px 0;
@@ -661,6 +667,7 @@ const handleConfirmOrder = (finalData) => {
 }
 
 .menu-description {
+  font-family: Newsreader;
   color: #6b7280;
   font-size: 0.95rem;
   line-height: 1.5;
@@ -693,5 +700,216 @@ const handleConfirmOrder = (finalData) => {
   background-color: #17201d;
   color: #ffffff;
   border-color: #17201d;
+}
+@media screen and (max-width: 768px) {
+ .page-identity {
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 0px 20px;
+  }
+  
+  .logo h2 {
+    font-size: 20px; 
+  }
+
+  .nav-links {
+    flex-wrap: nowrap; 
+    gap: 4px;
+  }
+  
+  .nav-item {
+    font-size: 20px; 
+    padding: 6px 8px; 
+  }
+  .page-body{
+    padding: 20px 20px;
+    position: relative;
+    border-radius: 24px;
+  }
+
+  .hero-card {
+    padding: 5px 5px;
+    position: relative;
+    min-height: 550px; 
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    overflow: hidden;
+  }
+
+  .hero-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(23, 32, 29, 0.1) 0%, rgba(23, 32, 29, 0.95) 80%);
+  }
+
+  .floating-badge {
+    top: 20px;
+    right: 20px;
+    bottom: auto; 
+    z-index: 2;
+    padding: 8px 12px;
+  }
+  
+  .badge-tag {
+    font-size: 8px;
+  }
+  
+  .badge-title {
+    font-size: 12px;
+  }
+
+ .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 20px 24px 40px 24px; 
+    background: transparent;
+  }
+
+  .hero-title {
+    font-size: 36px;
+    line-height: 50px;
+    margin: 8px 0 20px 0; 
+  }
+
+  .hero-description {
+    font-size: 14px;
+    margin-bottom: 36px; 
+    color: #e5e7eb;
+    max-width: 100%;
+  }
+
+  .hero-btn {
+    width: 100%; 
+    justify-content: center;
+    padding: 14px 24px; 
+  }
+  .hero-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 16px;
+    margin-top: 24px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .menu-title {
+    font-size: 36px;
+  }
+  
+  .category-filters {
+    flex-wrap: wrap;
+  }
+  
+  .body-menu {
+
+    grid-template-columns: 1fr;
+  }
+
+ .complain {
+    padding: 24px 50px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .complain-wrapper {
+    flex-direction: row;
+    gap: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .complain-info {
+    flex: 1;
+   
+    max-width: 42%;
+    box-sizing: border-box;
+  }
+  
+  .complain-title {
+    font-size: 18px; 
+    margin: 8px 0;
+  }
+
+  .complain-description {
+    font-size: 9px;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  
+  .complain-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-box strong {
+    font-size: 10px;
+  }
+
+  .detail-box p {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+  
+  .complain-form {
+    flex: 0 0 54%; 
+    max-width: 54%;
+    padding: 12px; 
+    border-radius: 12px;
+    box-sizing: border-box; 
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0; 
+  }
+  
+  .form-group label {
+    font-size: 8px;
+  }
+  
+  .form-group input, 
+  .form-group textarea {
+    padding: 8px;
+    font-size: 10px;
+    width: 100%; 
+    box-sizing: border-box;
+  }
+
+  .complain-btn {
+    padding: 8px;
+    font-size: 10px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
 }
 </style>
