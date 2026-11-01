@@ -56,7 +56,7 @@ const menus = [
         ),
     },
     {
-        title: 'Gudang',
+        title: 'Penyimpanan',
         icon: 'bi-houses',
         link: '/inventories',
         active: route.name.includes('inventories-view', 'detail-inventories-view'),
