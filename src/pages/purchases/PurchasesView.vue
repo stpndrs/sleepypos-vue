@@ -94,20 +94,24 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                     </template>
                     <template #aksi="{ row }">
                         <div class="action-buttons">
-                            <router-link
-                                :to="{ name: 'edit-purchases-view', params: { id: row.kode } }"
+                            <Link
+                                route-name="edit-purchases-view"
+                                :param="{ id: row.kode }"
+                                variant="primary-solid"
                                 class="edit-icon"
                                 aria-label="Edit pembelian"
                             >
                                 <i class="bi bi-pencil"></i>
-                            </router-link>
-                            <router-link
-                                :to="{ name: 'detail-purchases-view', params: { id: row.kode } }"
+                            </Link>
+                            <Link
+                                route-name="detail-purchases-view"
+                                :param="{ id: row.kode }"
+                                variant="primary-solid"
                                 class="detail-icon"
                                 aria-label="Detail pembelian"
                             >
                                 <i class="bi bi-eye"></i>
-                            </router-link>
+                            </Link>
                         </div>
                     </template>
                 </ObjectTable>
@@ -164,7 +168,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
     justify-content: flex-end;
 }
 
-.edit-icon {
+.action-buttons .edit-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,11 +186,11 @@ watch([currentPage, perPage], fetchData, { immediate: true });
         opacity 0.2s;
 }
 
-.edit-icon:hover {
+.action-buttons .edit-icon:hover {
     background-color: #e05200;
 }
 
-.detail-icon {
+.action-buttons .detail-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,7 +208,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
         opacity 0.2s;
 }
 
-.detail-icon:hover {
+.action-buttons .detail-icon:hover {
     background-color: #e05200;
 }
 

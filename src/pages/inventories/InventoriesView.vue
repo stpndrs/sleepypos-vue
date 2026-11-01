@@ -4,6 +4,7 @@ import SearchInput from '@/components/SearchInput.vue';
 import ObjectTable from '@/components/Table.vue';
 import Pagination from '@/components/Pagination.vue';
 import { inventories } from '@/data/inventories';
+import Link from '@/components/Link.vue';
 
 const searchQuery = ref('');
 const currentPage = ref(1);
@@ -50,16 +51,15 @@ watch([currentPage, perPage], fetchData, { immediate: true });
                 >
                     <template #aksi="{ row }">
                         <div class="action-buttons">
-                            <router-link
-                                :to="{
-                                    name: 'detail-inventories-view',
-                                    params: { id: row.kode },
-                                }"
+                            <Link
+                                route-name="detail-inventories-view"
+                                :param="{ id: row.kode }"
+                                variant="primary-solid"
                                 class="detail-icon"
                                 aria-label="Detail Barang"
                             >
                                 <i class="bi bi-eye"></i>
-                            </router-link>
+                            </Link>
                         </div>
                     </template>
                 </ObjectTable>
@@ -100,7 +100,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
     justify-content: flex-end;
 }
 
-.detail-icon {
+.action-buttons .detail-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,7 +118,7 @@ watch([currentPage, perPage], fetchData, { immediate: true });
         opacity 0.2s;
 }
 
-.detail-icon:hover {
+.action-buttons .detail-icon:hover {
     background-color: #e05200;
 }
 
