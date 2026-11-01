@@ -123,4 +123,67 @@ import DateRangeInput from '@/components/DateRangeInput.vue';
   border-radius: 12px;
   padding: 20px;
 }
+@media screen and (max-width: 768px) {
+  .page-container,
+  .page-body {
+    padding: 10px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .header-table {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .header-table > * {
+    width: 100%;
+  }
+
+  .chart-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .chart-card > * {
+    max-width: 100%;
+  }
+
+  .table-grid {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; 
+    box-sizing: border-box;
+    padding: 12px; 
+    overflow: hidden; 
+  }
+
+  .table-section {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    overflow-x: hidden; 
+  }
+
+
+  .table-section :deep(th),
+  .table-section :deep(td) {
+    font-size: 9px !important; 
+    padding: 6px 4px !important;
+    word-wrap: break-word !important; 
+    white-space: normal !important; 
+    text-align: left; 
+  }
+}
 </style>
