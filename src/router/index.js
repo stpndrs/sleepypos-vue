@@ -21,6 +21,7 @@ import UpdateStocksView from '@/pages/stocks/UpdateStocksView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import InventoriesView from '@/pages/inventories/InventoriesView.vue';
 import DetailInventoriesView from '@/pages/inventories/DetailInventoriesView.vue';
+import ReportPurchasesView from '@/pages/purchases/ReportPurchasesView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -143,25 +144,43 @@ const router = createRouter({
                             path: '/purchases',
                             component: PurchasesView,
                             name: 'purchases-view',
-                            meta: { hideSideBar: true, title: ['Riwayat Pembelian'] },
+                            meta: { hideSideBar: true, title: ['Manajemen Pembelian'] },
                         },
                         {
                             path: '/purchases/create',
                             component: CreatePurchasesView,
                             name: 'create-purchases-view',
-                            meta: { hideSideBar: true, showTopBar: false },
+                            meta: {
+                                hideSideBar: true,
+                                title: ['Manajemen Pembelian', 'Tambah Pembelian'],
+                            },
                         },
                         {
                             path: '/purchases/edit/:id',
                             component: CreatePurchasesView,
                             name: 'edit-purchases-view',
-                            meta: { hideSideBar: true, showTopBar: false },
+                            meta: {
+                                hideSideBar: true,
+                                title: ['Manajemen Pembelian', 'Edit Pembelian'],
+                            },
                         },
                         {
                             path: '/purchases/detail/:id',
                             component: DetailPurchasesView,
                             name: 'detail-purchases-view',
-                            meta: { hideSideBar: true, showTopBar: false },
+                            meta: {
+                                hideSideBar: true,
+                                title: ['Manajemen Pembelian', 'Detail Pembelian'],
+                            },
+                        },
+                        {
+                            path: '/purchases/report',
+                            component: ReportPurchasesView,
+                            name: 'report-purchases-view',
+                            meta: {
+                                hideSideBar: true,
+                                title: ['Manajemen Pembelian', 'Laporan Pembelian'],
+                            },
                         },
                     ],
                 },
