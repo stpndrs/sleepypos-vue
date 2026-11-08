@@ -23,7 +23,7 @@ const menus = [
         title: 'Pelanggan',
         icon: 'bi-people',
         link: '/customers',
-        active: route.name == ('customers-view', 'create-customers-view', 'edit-customers-view'),
+        active: route.name.includes('customers'),
     },
     {
         title: 'Penjualan',
@@ -41,7 +41,7 @@ const menus = [
         title: 'Stok',
         icon: 'bi-cart3',
         link: '/stocks',
-        active: route.name.includes('Stocks-view', 'create-Stocks-view', 'edit-Stocks-view'),
+        active: route.name.includes('stocks'),
     },
     {
         title: 'Pembelian',
@@ -79,12 +79,8 @@ const menus = [
         </header>
 
         <ul class="menus">
-            <li
-                v-for="(item, index) in menus"
-                :key="index"
-                :class="['menu-item', { active: item.active }]"
-                :data-tooltip="hide ? item.title : null"
-            >
+            <li v-for="(item, index) in menus" :key="index" :class="['menu-item', { active: item.active }]"
+                :data-tooltip="hide ? item.title : null">
                 <a :href="item.link" class="menu-link">
                     <span class="menu-icon">
                         <i :class="['bi', item.icon]"></i>
@@ -284,6 +280,7 @@ header .header-content p:nth-child(2) {
 }
 
 @media (max-width: 768px) {
+
     #sidebar,
     #sidebar.is-hide {
         height: auto;
