@@ -6,6 +6,7 @@ import EditProductsView from '@/pages/products/EditProductsView.vue';
 import ProductsView from '@/pages/products/ProductsView.vue';
 import CreatePurchasesView from '@/pages/purchases/CreatePurchasesView.vue';
 import DetailPurchasesView from '@/pages/purchases/DetailPurchasesView.vue';
+import EditPurchasesView from '@/pages/purchases/EditPurchasesView.vue';
 import PurchasesView from '@/pages/purchases/PurchasesView.vue';
 import CreateSalesView from '@/pages/sales/CreateSalesView.vue';
 import DetailSalesView from '@/pages/sales/DetailSalesView.vue';
@@ -157,7 +158,7 @@ const router = createRouter({
                         },
                         {
                             path: '/purchases/edit/:id',
-                            component: CreatePurchasesView,
+                            component: EditPurchasesView,
                             name: 'edit-purchases-view',
                             meta: {
                                 hideSideBar: true,
