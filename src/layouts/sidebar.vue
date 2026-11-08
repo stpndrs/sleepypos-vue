@@ -18,7 +18,7 @@ const menus = [
         link: '/dashboard',
         active: route.name == 'dashboard',
     },
-    { title: 'Pengguna', icon: 'bi-person', link: '/users', active: route.name.includes('users') },
+    { title: 'Pengguna', icon: 'bi-person', link: '/pengguna', active: false },
     {
         title: 'Pelanggan',
         icon: 'bi-people',
@@ -79,14 +79,24 @@ const menus = [
         </header>
 
         <ul class="menus">
-            <li v-for="(item, index) in menus" :key="index" :class="['menu-item', { active: item.active }]"
+            <li
+                v-for="(item, index) in menus"
+                :key="index"
+                :class="[
+                    'menu-item',
+                    {
+                        active:
+                            item.active ||
+                            (item.title === 'Pengguna' && route.name?.includes('pengguna')),
+                    },
+                ]"
                 :data-tooltip="hide ? item.title : null">
-                <a :href="item.link" class="menu-link">
+                <RouterLink :to="item.link" class="menu-link">
                     <span class="menu-icon">
                         <i :class="['bi', item.icon]"></i>
                     </span>
                     <span class="menu-text" v-if="!hide">{{ item.title }}</span>
-                </a>
+                </RouterLink>
             </li>
         </ul>
     </div>
