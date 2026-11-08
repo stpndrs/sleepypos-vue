@@ -1,46 +1,11 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { reactive } from 'vue';
 import InputDate from '@/components/InputDate.vue';
 import InputFile from '@/components/InputFile.vue';
 import Button from '@/components/Button.vue';
 import InputText from '@/components/InputText.vue';
 import SelectInput from '@/components/SelectInput.vue';
 import router from '@/router';
-import { useRoute } from 'vue-router';
-import { purchases } from '@/data/purchases';
-
-const route = useRoute();
-const isEdit = computed(() => route.name === 'edit-purchases-view');
-
-function getPurchase(id) {
-    //Mungkin bisa di ganti melakukan get ke api berdasarkan kode nya
-    return purchases.find((row) => row.kode === id) ?? null;
-}
-
-async function loadPurchase() {
-    if (!isEdit.value) {
-        form.buyerName = '';
-        form.paymentProof = null;
-        form.total = null;
-        form.date = '';
-        form.note = '';
-        form.items = [createItem()];
-        return;
-    }
-
-    const purchase = await getPurchase(route.params.id);
-    if (!purchase) {
-        alert('Data pembelian tidak ditemukan');
-        return;
-    }
-
-    form.buyerName = purchase.nama;
-    form.total = purchase.total;
-    form.date = purchase.tanggal.split('/').reverse().join('-');
-    form.note = purchase.catatan;
-    form.paymentProof = purchase.bukti;
-    form.items = purchase.items.map((item) => ({ ...item }));
-}
 
 let nextItemId = 1;
 
@@ -88,11 +53,7 @@ function onItemImageChange(item, event) {
 }
 
 function submitForm() {
-    if (
-        !form.date ||
-        (!isEdit.value && !form.paymentProof) ||
-        form.items.some((item) => !item.unit || !item.image)
-    ) {
+    if (!form.date || !form.paymentProof || form.items.some((item) => !item.unit || !item.image)) {
         alert('Tanggal pembelian, bukti pembayaran, satuan, dan gambar produk wajib diisi');
         return;
     }
@@ -113,22 +74,19 @@ function submitForm() {
         if (item.image) formData.append(`items[${index}][image]`, item.image);
     });
 
-    const label = isEdit.value ? `PUT /purchases/${route.params.id}` : 'POST /purchases';
-    console.log(label, [...formData.entries()]);
+    console.log('POST /purchases', [...formData.entries()]);
 }
 
 function cancel() {
     router.push({ name: 'purchases-view' });
 }
-
-watch(() => route.params.id, loadPurchase, { immediate: true });
 </script>
 
 <template>
     <div class="page">
         <section class="page-header">
             <div class="page-identity">
-                <h1 class="page-title">{{ isEdit ? 'Edit Pembelian' : 'Tambah Pembelian' }}</h1>
+                <h1 class="page-title">Tambah Pembelian</h1>
             </div>
         </section>
 
