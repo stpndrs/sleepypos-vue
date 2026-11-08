@@ -12,7 +12,7 @@ const currentPage = ref(1);
 const perPage = ref(10);
 const imageUrl = ref(null);
 
-const customers =ref( [
+const customers = ref([
     {
         no: 1,
         name: 'rizky',
@@ -26,8 +26,8 @@ const customers =ref( [
     {
         no: 2,
         name: 'rakha',
-        prodi: 'Informasi Teknologi',
-        angkatan: '2024',
+        prodi: '-',
+        angkatan: '-',
         notes: 'Pelanggan',
         phone: '085845797669',
         photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
@@ -66,8 +66,8 @@ const customers =ref( [
     {
         no: 6,
         name: 'chandra',
-        prodi: 'Sains Data',
-        angkatan: '2021',
+        prodi: '-',
+        angkatan: '-',
         notes: 'Pelanggan',
         phone: '081298765432',
         photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
@@ -86,8 +86,8 @@ const customers =ref( [
     {
         no: 8,
         name: 'ruben',
-        prodi: 'Teknik Elektro',
-        angkatan: '2020',
+        prodi: '-',
+        angkatan: '-',
         notes: 'Pelanggan',
         phone: '082234567891',
         photo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSusWVyiamRr1PmCjAsQcCMezWggQE2amRP6g5nWjTOw&s=10',
