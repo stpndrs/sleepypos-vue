@@ -4,6 +4,8 @@ import heroImage from '@/assets/hero-chef.jpg'
 import Button from '@/components/Button.vue'
 import MenuCard from '@/components/MenuCard.vue'
 import DetailPreorder from '@/components/DetailPreorder.vue'
+import ChatBoox from '@/components/ChatBox.vue'
+
 const menuItems = ref([
   {
     id: 1,
@@ -61,6 +63,9 @@ const handleExploreMenu = () => {
 
 const categories = ['Semua', 'Cheesecuit', 'Coffee', 'Bundles']
 const activeCategory = ref('Semua')
+const showImage = ref(false)
+const selectedImageUrl = ref('')
+
 
 const selectCategory = (category) => {
   activeCategory.value = category
@@ -83,6 +88,8 @@ const handleConfirmOrder = (finalData) => {
 
 <template>
   <div class="page-container">
+    
+    
 
     <header class="page-header">
       <div class="page-identity">
@@ -101,6 +108,7 @@ const handleConfirmOrder = (finalData) => {
     </header>
 
     <section class="page-body">
+      
 
       <section class="hero-card">
 
@@ -170,10 +178,12 @@ const handleConfirmOrder = (finalData) => {
       </section>
 
       <div class="menu">
+        
 
-        <div class="body-menu">
-          <MenuCard v-for="item in menuItems" :key="item.id" :id="item.id" :category="item.category" :title="item.title"
-            :price="item.price" :description="item.description" :image="item.image" @order="handleOrder" />
+        <div class="body-menu" @click="handleImageClick">
+          <MenuCard v-for="item in menuItems" :key="item.id" :id="item.id" :category="item.category"
+          :title="item.title" :price="item.price" :description="item.description" :image="item.image" 
+          @order="handleOrder" @show-preview="openImage" />
         </div>
       </div>
     </section>
@@ -182,8 +192,7 @@ const handleConfirmOrder = (finalData) => {
 
       <div class="complain">
 
-        <div class="complain-wrapper">
-          
+        <div class="complain-wrapper">          
           <div class="complain-info">
             <span class="complain-subtitle">HUBUNGI KAMI</span>
             <h1 class="complain-title">
@@ -257,11 +266,13 @@ const handleConfirmOrder = (finalData) => {
       @close="showPreorderModal = false"
       @confirm="handleConfirmOrder"
     />
+    <ChatBoox />
 
   </div>
 </template>
 
 <style scoped>
+
 .page-identity{
   display: flex;
   justify-content: space-between;
