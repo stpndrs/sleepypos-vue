@@ -27,10 +27,12 @@ const props = defineProps({
     default: ''
   }
 })
-
-const emit = defineEmits(['order'])
+const emit = defineEmits(['order', 'show-preview']) 
 const quantity = ref(1)
 
+const handleImageClick = () => {
+  emit('show-preview', props.image)
+}
 const increment = () => {
   quantity.value++
 }
@@ -56,7 +58,7 @@ const handleOrder = () => {
 <template>
   <div class="menu-card">
 
-    <div class="card-image-wrapper">
+    <div class="card-image-wrapper" @click="handleImageClick">
       <img
         v-if="image"
         :src="image"
@@ -111,6 +113,10 @@ const handleOrder = () => {
   border-radius: 16px;
   overflow: hidden;
   background-color: #e5e7eb;
+  cursor: pointer;
+}
+.card-image-wrapper:hover {
+  opacity: 0.9;
 }
 
 .card-image {
