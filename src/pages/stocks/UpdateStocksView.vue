@@ -51,16 +51,12 @@ function Cancel() {
                     <div class="column-left">
                         <SelectInput v-model="product" label="Pilih produk" placeholder="Pilih produk"
                             :options="productOptions" :required="true" />
-
-                        <InputText v-model="productName" label="Nama Produk" placeholder="Nama produk" />
-
+                        <InputText v-model="quantity" label="Kuantitas" placeholder="Jumlah stok" type="number"
+                            :required="true" />
                         <InputText v-model="productUnit" label="Satuan" placeholder="Pilih satuan" />
                     </div>
 
                     <div class="column-right">
-                        <InputText v-model="quantity" label="Kuantitas" placeholder="Jumlah stok" type="number"
-                            :required="true" />
-
                         <InputText v-model="date" label="Tanggal" placeholder="dd/mm/yy" :required="true" />
 
                         <InputText v-model="notes" label="Catatan" placeholder="Catatan" type="textarea" />
