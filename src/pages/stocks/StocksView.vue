@@ -165,7 +165,7 @@ const stocks = ref([
 }
 
 @media (max-width: 991.98px) {
-    .filters {
+    .page-body.filters {
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
