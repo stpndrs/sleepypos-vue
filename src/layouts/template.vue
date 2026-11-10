@@ -9,6 +9,7 @@ import { useToast } from '@/composables/useToast.js';
 const { toasts, removeToast } = useToast()
 const route = useRoute()
 const hideSideBar = computed(() => route.meta?.hideSideBar ?? false);
+const hideSidebarCompletely = computed(() => route.meta?.hideSidebarCompletely ?? false);
 const isSidebarHide = ref(hideSideBar.value);
 watch(hideSideBar, (newValue) => {
     isSidebarHide.value = newValue;
@@ -24,8 +25,8 @@ const showTopBar = computed(() => {
 </script>
 
 <template>
-    <div id="template" :class="{ 'sidebar-collapsed': isSidebarHide }">
-        <aside>
+    <div id="template" :class="{ 'sidebar-collapsed': isSidebarHide, 'sidebar-hidden': hideSidebarCompletely }">
+        <aside v-if="!hideSidebarCompletely">
             <Sidebar :hide="isSidebarHide" @toggle="toggleSidebar" />
         </aside>
         <nav v-show="showTopBar">
@@ -59,6 +60,12 @@ const showTopBar = computed(() => {
     grid-template-columns: 80px 1fr;
 }
 
+#template.sidebar-hidden {
+    grid-template-areas: "main";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+}
+
 aside {
     grid-area: aside;
 }
@@ -70,6 +77,10 @@ nav {
 main {
     grid-area: main;
     padding: 24px 24px 80px 24px;
+}
+
+#template.sidebar-hidden main {
+    padding: 0;
 }
 
 .toast-container {

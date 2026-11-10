@@ -19,10 +19,14 @@ import UpdateCustomersView from '@/pages/customers/UpdateCustomersView.vue';
 import StocksView from '@/pages/stocks/StocksView.vue';
 import CreateStocksView from '@/pages/stocks/CreateStocksView.vue';
 import UpdateStocksView from '@/pages/stocks/UpdateStocksView.vue';
+import login from '@/pages/login/login.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import InventoriesView from '@/pages/inventories/InventoriesView.vue';
 import DetailInventoriesView from '@/pages/inventories/DetailInventoriesView.vue';
 import ReportPurchasesView from '@/pages/purchases/ReportPurchasesView.vue';
+import PenggunaView from '@/pages/pengguna/PenggunaView.vue';
+import PenggunaEditView from '@/pages/pengguna/PenggunaEditView.vue';
+import CreatePenggunaView from '@/pages/pengguna/CreatePenggunaView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -224,6 +228,38 @@ const router = createRouter({
                             component: DetailInventoriesView,
                             name: 'detail-inventories-view',
                             meta: { hideSideBar: true, title: ['Penyimpanan', 'Detail Barang'] },
+                        },
+                    ],
+                },
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: () => import('@/pages/login/login.vue'),
+                    meta : { hideSideBar: true, hideSidebarCompletely: true, showTopBar: false, title: ['Login'] },
+                },
+
+
+                {
+                    path: '/pengguna',
+                    name: 'pengguna',
+                    children: [
+                        {
+                            path: '/pengguna',
+                            component:PenggunaView,
+                            name: 'pengguna-view',
+                            meta: { hideSideBar: false, title: ['Pengguna'] },
+                        },
+                        {
+                            path: '/pengguna/create',
+                            component: CreatePenggunaView,
+                            name: 'create-pengguna-view',
+                            meta: { hideSideBar: false, title: ['Pengguna', 'Tambah Pengguna'] },
+                        },
+                        {
+                            path: '/pengguna/edit/:id',
+                            component: PenggunaEditView,
+                            name: 'edit-pengguna-view',
+                            meta: { hideSideBar: false, title: ['Pengguna', 'Edit Pengguna'] },
                         },
                     ],
                 },
